@@ -62,3 +62,31 @@ class dbpass {
 * static/
 * index.html
 * .htaccess
+
+## Update the App
+
+### Load the app locally
+
+Steps taken on macOS 12.4 intel
+- install node v6
+- npm install
+- npm install -g webpack-dev-server@1
+- webpack-dev-server --port 3000
+- npm run dev
+- visit localhost:3000
+- in network tab verify by checking the line with name "localhost" and in the response tab you can should see the contents of the index.html file 
+
+### Set up local server
+
+Server where the current app is hosted is running php7.4 and mariaDB
+
+macOS
+- brew install php@7.4
+- brew link php@7.4
+- php -v
+
+
+### Future work
+- Webpack
+  - v1 -> v3 -> v5
+
