@@ -8,7 +8,7 @@ node_modules/*
 npm-debug.log
 npm-debug.log.*
 server/database.php
-serverconfig/~$errorlist.xlsx
+serverconfig/*
 src/**/*.css.d.ts
 src/**/*.js
 src/**/*.js.map

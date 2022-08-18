@@ -1,5 +1,8 @@
 The files here were created and stored in git as a template.
-Then they were .gitignored so you can edit them locally.
+Then they were added to .gitignore and the index updated as such:
+`git update-index --assume-unchanged serverconfig/production/database.php`
+so you can edit them with local or prod secrets as needed.
+
 
 The purpose is to store environment specific configuration data here.
 Then let an npm script from package.json copy the file into the server dir when deploying.
