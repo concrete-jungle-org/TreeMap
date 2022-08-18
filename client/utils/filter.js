@@ -17,14 +17,14 @@ export function readFilter(resolve, reject) {
         resolve(response);
     } else {
       if (__DEV__) {
-        console.error(response.message);
+        console.error('readFilterPromise error: ', response.message);
       }
       if (reject)
         reject(response.code);
     }
   }).catch(function(response) { // Error catch for calcSeason().
     if (__DEV__) {
-      console.error(response.statusText);
+      console.error('readFilterPromise error: ', response.statusText);
     }
     if (reject)
       reject(response.status);
@@ -69,13 +69,13 @@ export function updateFilter(mode, ids, resolve, reject) {
         resolve(response);
     } else {
       if (__DEV__)
-        console.error(response.message);
+        console.error('updateFilterPromise error', error.message);
       if (reject)
         reject(response.code);
     }
   }).catch(function(response) { // Error catch for calcSeason().
     if (__DEV__)
-      console.error(response.statusText);
+      console.error('updateFilterPromise error', response.statusText);
     if (reject)
       reject(response.status);
   });
@@ -90,7 +90,12 @@ export function resetFilter() {
     cache: false,
     dataType: "json"
   });
-  return resetFilterPromise.then(function(response) {
-    return response;
-  });
+  return resetFilterPromise.then(
+    function(response) {
+      return response;
+    },
+    function(error) {
+      console.error('resetFilterPromise error', error.message);
+    }
+  );
 }
