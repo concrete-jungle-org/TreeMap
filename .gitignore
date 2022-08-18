@@ -20,3 +20,5 @@ content/maps/*
 serverconfig/~$errorlist.xlsx
 npm-debug.log
 npm-debug.log.*
+
+.DS_Store
