@@ -9,6 +9,4 @@ npm-debug.log
 npm-debug.log.*
 server/database.php
 serverconfig/*
-src/**/*.css.d.ts
-src/**/*.js
-src/**/*.js.map
+
