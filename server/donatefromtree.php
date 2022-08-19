@@ -34,7 +34,14 @@
         "treeId" => $_GET['treeId'],
       );
     }
-    $sql = "SELECT * FROM `donate` WHERE FIND_IN_SET(:treeId, `tree`) AND `type` = 4 ORDER BY `date` DESC LIMIT 1";
+    $sql = "SELECT * FROM donate"
+          ." WHERE tree = :treeId" // exact match
+          ." OR CAST(tree as TEXT) LIKE ':treeId,%'" //beginning
+          ." OR CAST(tree as TEXT) LIKE '%,:treeId,%'" //middle
+          ." OR CAST(tree as TEXT) LIKE '%,:treeId'" //end of a list. NOTE: This can be simplified if tree is converted to type text, not integer
+          ." AND type = 4"
+          ." ORDER BY date"
+          ." DESC LIMIT 1";
     try {
       $pdo = getConnection();
       $stmt = $pdo->prepare($sql);
