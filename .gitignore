@@ -3,6 +3,7 @@
 .DS_Store
 content/images/*
 content/maps/*
+db/tree_parent.sqlite
 dist/*
 node_modules/*
 npm-debug.log
