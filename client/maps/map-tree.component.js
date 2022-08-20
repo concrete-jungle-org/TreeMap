@@ -290,7 +290,7 @@ export default class MapTree extends React.Component {
   }
   render () {
     return (
-      <div></div>
+      <div className='map-tree'></div>
     );
   }
 }
