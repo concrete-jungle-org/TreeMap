@@ -34,6 +34,7 @@
         $stmt->execute();
         $result1 = $stmt->fetchAll();
         foreach ($result1 as $tree) {
+          // NOTE: This loops over 4000 trees, executing a separate query for each one!
           // echo nl2br("- calculating for " . $tree["id"] ."\n");
           $sql = "SELECT `rate` FROM `note` WHERE `type` = 2 AND (`tree` = " . $tree["id"] . ") AND ( (`date` BETWEEN '" . $startthisyear->format('Y-m-d') . "' AND '" . $endthisyear->format('Y-m-d') . "') OR (`date` BETWEEN '" . $startlastyear->format('Y-m-d') . "' AND '" . $endlastyear->format('Y-m-d') . "')  OR (`date` BETWEEN '" . $start2lastyear->format('Y-m-d') . "' AND '" . $end2lastyear->format('Y-m-d') . "') )ORDER BY `date` DESC LIMIT 1";
           try {
