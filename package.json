@@ -6,7 +6,7 @@
     "dev": "webpack -d --watch --config webpack.dev.config.js",
     "build": "webpack -p --config webpack.production.config.js",
     "deploy": "npm run sync:client",
-    "reset:database": "rsync -azp ./serverconfig/production/database.php ${CJ_PROD_USER}@${CJ_PROD_HOST}:/home/public/food-map/server",
+    "reset:database": "rsync -azP ./serverconfig/production/database.php ${CJ_PROD_USER}@${CJ_PROD_HOST}:/home/public/food-map/server",
     "reset:client": "rsync -azP ./prod/dist/ ${CJ_PROD_USER}@${CJ_PROD_HOST}:/home/public/food-map/dist && npm run reset:database",
     "reset:server": "rsync -azP ./prod/server/ ${CJ_PROD_USER}@${CJ_PROD_HOST}:/home/public/food-map/server && npm run reset:database",
     "setup:dev": "cp -f env/local/index.html . && cp -f env/local/server.json setting/ && cp -f serverconfig/local/database.php server/",
