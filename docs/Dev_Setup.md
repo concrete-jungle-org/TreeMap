@@ -1,20 +1,15 @@
-# Dev Setup
+## Initial dev setup
 
-## Local Setup
+If this is too long, a faster setup is to skip the php/apache sections and instead edit your files locally 
+but then `build`/`deploy` them to remote host and view changes there by visiting the public url.
 
-Steps taken on macOS 12.4 intel
+- Get ssh access to the development server: `nate`
+  - `ssh <your_user>_nate@ssh.phx.nearlyfreespeech.net`
 - install node v6
-- npm install
-
-Get ssh access to the development server: `nate`
-- `ssh <your_user>_nate@ssh.phx.nearlyfreespeech.net`
-
-Get a copy of tree_parent.sqlite
-- download from development server, its located in the `FoodParent2.0/db/`
-- `chmod 664 tree_parent.sqlite` allow user and group rw permissions
-
-
-Initial setup
+  - However, if you need to run 'npm install' then be careful, node v6 ships with npm v3 which does not read the package-lock file
+  - The lock file is needed to ensure the exact same dependencies are installed
+  - If you see errors when building that node-sass does not yet support your runtime environment, you are probably not running node v6
+  - the version of node-sass used here only supports up to node v7
 - npm install
   - NOTE: a package-lock was created using a newer version of node (v16) because node v6 use npm v3
   - npm v3 knows nothing about package-lock file
@@ -26,29 +21,109 @@ Initial setup
   - Here are mine for example:
   - `export CJ_PROD_USER='nate91711_nate'`
   - `export CJ_PROD_HOST='ssh.phx.nearlyfreespeech.net'`
+- Set up your local database files
+  - See the [readme.md](../db/readme.md) about how to download the sqlite database 
+  - `chmod 664 tree_parent.sqlite` verify that you allow user and group rw permissions if getting an access error
+- Setup PHP on macOS
+  - brew install php@7.4
+  - brew link php@7.4
+  - php -v
+    Note: If you have already done this before but notice php is pointing to v8 check that the sym links were not overwritten.
+    - `brew link --overwrite --dry-run php@7.4`
+    - if you see links to another version such as `/usr/local/bin/pear -> /usr/local/Cellar/php/8.1.8/bin/pear` then overwrite
+  - Notes from the original readme concerning PHP
+    * Open `php.ini` configuration file under {apach} directory. If you are using external hosting service, ask hosting manager.
+    * Find `upload_max_filesize` and set the value higher than 6M. This value defines the maximum size of file, and some of image files generated from smart devices exceeds 4M.
+    ```
+    ; Maximum allowed size for uploaded files.
+    ; http://php.net/upload-max-filesize
+    upload_max_filesize=6M
+    ```
 
-Dev workflow
+
+- Setup Apache on MacOS 12.0 Monterrey (Intel Basedql
+  - Note: Apple silicon (M1+) computers may store files in a different location.
+  - [Setting up Apache Server on macOS 12](https://getgrav.org/blog/macos-monterey-apache-multiple-php-versions)
+  - Also following instructions to load apache from: https://www.git-tower.com/blog/apache-on-macos/
+      ```sh
+      ❯ which httpd
+      /usr/sbin/httpd
+      ```
+  - Make changes to the conf file already used by MacOS.
+  - `/usr/local/etc/httpd/httpd.conf`
+    - Change the port from 8080 to 80
+    - Enable PHP@7.4 module
+    - Enable vhosts
+    - Change the user/group to your username/staff
+  - In the `extras/vhosts` file remove dummy vhosts and create a new one
+  - Remember to start this service
+    - `brew services start httpd`
+- `npm run dev`
+- visit localhost:3000
+- in network tab verify by checking the line with name "localhost" and in the response tab you can should see the contents of the index.html file 
+
+## Various Ways to Build the App
+
+### Main dev workflow 
+
+The main dev branch uses node v6, webpack v1, and the airtable.sqlite database.
+
+#### In order to run on your local machine
+
 - Edit the env/local && serverconfig/local files to match your local file paths as needed
-- not all files here need to be changed, you can run git diff to see what the script `setenv:local` alters
-- `npm run setenv:local` to use files and settings specific to your local env
+- not all files here need to be changed, you can run git diff to see what the script `setup:dev` alters
+- `npm run setup:dev` to use files and settings specific to your local env
 - This is a temp solution until a proper .env file is set up, unfortunately this requires you to reset the env when committing
-- `npm run setenv:prod` when you are ready to rebase or commit changes
+- `npm run setup:prod` when you are ready to rebase or commit changes
 - `npm run build` to bundle all the js into the /dist folder where its read by apache
-- `npm run deploy`: to copy the client (js) files to the webhost
-- `npm run sync:server`: to copy the server files to the webhost
 
+#### In order to run on the server
 
-Why node v6?
-- If you see errors when building that node-sass does not yet support your runtime environment, the version of node-sass used here
-  - only supports up to node v7
-  - However, if you need to run 'npm install' then be careful, node v6 ships with npm v3 which does not read the package-lock file
-  - The lock file is needed to ensure the exact same dependencies are installed
-
-Make a change to the js, then:
+For the js web app:
 - `npm run build`
-- `npm run sync:client`
-- visit [nate.nfshost.com to see changes](https://nate.nfshost.com/food-map/)
+- `npm run deploy`
 
+For the python server:
+- `npm run setup:prod` 
+- `npm run sync:server`
+
+Visit [nate.nfshost.com to see changes](https://nate.nfshost.com/food-map/)
+
+### Regression testing with the old dev workflow (mysql)
+
+If you need to see how something is working in production that is not working with your local build,
+then you can restore the code to match what is running in production.
+
+For the js web app:
+- `npm run reset:client` 
+
+For the python server:
+- `npm run reset:server` 
+
+The mysql db is already loaded on the remote host.
+This can be confirmed from the [phpmyadmin dashboard](https://phpmyadmin.nearlyfreespeech.net/)
+
+Some unusual notes about production:
+- Production code is on the `scss` branch with a number of file changes that are not tracked
+- Github's `master` branch has 1 commit ahead of the `scss` branch where the intro-js code was removed
+
+### If you want to run the old dev workflow locally you will need to set up mysql/php/apache
+
+  - `brew install mysql@5.7`
+  - `brew link --force mysql@5.7`
+ 
+Note: If you make a mistake you can remove and reinstall
+- `brew uninstall mysql@5.7`
+- `rm -rf /usr/local/var/mysql`
+- `rm /usr/local/etc/my.cnf`
+- you may need to edit your PATH var if a 2nd version of mysql installed that is hidden by PATH export
+- source
+- check: `mysql --version`
+- `brew uninstall mysql`
+
+## Misc dev notes
+
+Note: index.html loads scripts with an href that starts with `/food-map/dist`. 
 Note: Google API key is hardcoded in a couple files
 - index.html: `<script src="https://maps.googleapis.com/maps/api/js?key=`
 - settings/map.json: `"uReverseGeoCoding": "https://maps.googleapis.com/maps/api/geocode/json?key=`
@@ -62,23 +137,15 @@ these values in the source code and then creating a new dist/js/client-bundle.
 Note: MapBox API key is also exposed
 - map.json: `"sMapboxAccessToken": "..."`
 
-# Setup Notes
 
-- node v6, webpack v1
-- [Node v6 to v8 Breaking Changes](https://github.com/nodejs/wiki-archive/blob/master/Breaking-changes-between-v6-LTS-and-v8-LTS.md)
-- [Webpack v1 documentation](https://github.com/webpack/docs/wiki/contents)
-
-Steps taken on macOS 12.4 intel
-- install node v6
-- npm install
-- npm install -g webpack-dev-server@1
-- webpack-dev-server --port 3000
-- npm run dev
-- visit localhost:3000
-- in network tab verify by checking the line with name "localhost" and in the response tab you can should see the contents of the index.html file 
-
-
-Note: index.html loads scripts with an href that starts with `/food-map/dist`. 
-Production code is on the `scss` branch with a number of file changes that are not tracked
-Github's `master` branch has 1 commit ahead of the `scss` branch where the intro-js code was removed
-
+From the original Readme.md
+  - Upload files in a server
+  *Don't try to upload all files in {app-root-directory}. It have a lot of dependency libraries which don't need to run the application.
+  *Below are the list of directories and files require to run the applicaiton.
+  * content/
+  * dist/
+  * favicons/
+  * server/
+  * static/
+  * index.html
+  * .htaccess

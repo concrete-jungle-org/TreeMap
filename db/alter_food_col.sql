@@ -1,0 +1,2 @@
+ALTER TABLE food RENAME COLUMN id TO old_id;
+ALTER TABLE food RENAME COLUMN airtable_id TO id;

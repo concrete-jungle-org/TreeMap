@@ -8,5 +8,7 @@ Feel free to alter them as needed to debug and compare changes without committin
 
 The npm scripts use these files to reset our test server back to a copy of production.
 
-This is helpful in finding regressions until the rebuilt version of the app is ready to replace production. Then this directory and the npm scripts can be removed.
+This is helpful in finding regressions until the rebuilt version of the app is ready to replace production. 
+
+Then this directory and the npm scripts can be removed.
 

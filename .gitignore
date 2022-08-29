@@ -3,7 +3,10 @@
 .DS_Store
 content/images/*
 content/maps/*
+db/dbpass.php.mysql
+db/tree_parent.dump
 db/tree_parent.sqlite
+db/airtable.sqlite
 dist/*
 node_modules/*
 npm-debug.log
