@@ -13,11 +13,11 @@ easily available for development.
 ## Directory Contents:
 
 - `tree_parent.dump`: what the app originally worked with
-- `tree_parent.sqlite`: a conversion of the mysql dump file into an sqlite file
+- `tree_parent.sqlite`: a conversion of the mysql dump file into an sqlite file (orig schema)
 - `airtable.sqlite`: an export of the data from airtable (new schema)
 - `alter_xxx`: sqlite scripts to be executed against an airtable backup found in the [cj-airtable repo](https://github.com/natomato/cj-airtable).
 - `database.php.mysql`: contains the db connection code used if reverting the app to old production-like state
-- `dbpass.php.mysql`: contains the password file used if reverting the app to old production-like state that uses mysql
+- `dbpass.php`: Not included, this file has the pw required to connect to mysql db. Stored on nfshost server only. Used if reverting the app to old production-like state
 
 ## Dev Tips
 
@@ -34,16 +34,18 @@ To get started:
 ### Airtable
 
 The goal is to get the app to behave the same as production using this database: airtable.sqlite.
-Any modification to the database schema needs to be recorded in an alter script so it can be re-created when db updated.
-The cj-airtable repo creates nightly backups via using this tool [airtable-export-tool](https://datasette.io/tools/airtable-export)
+However the database schema used in airtable differs from the original mysql db.
+Any modification to the database schema needs to be recorded in an alter script so it can be re-created when a new db import occurrs.
+The cj-airtable repo creates nightly backups using this tool [airtable-export-tool](https://datasette.io/tools/airtable-export)
 You can setup and run this tool locally if you want, instructions are given on the site.
 The tool has not been updated since Apir 9, 2021, as of Aug 2022 it works perfectly.
 
 ### MySQL
 
 When you want to work with the app as it is in production follow the [Dev_Setup.md](../docs/Dev_Setup.md) instructions.
-The original app required a dbpass.php and a database.php file. They are here with a `.mysql` extension
-that needs to be removed. It was added to avoid confusion with other forms of this file elsewhere in this repo.
+The original app required a dbpass.php and a database.php file. The database file is here with a `.mysql` extension.
+The .mysql extension was added to avoid confusion with other forms of this file elsewhere in this repo, but gets
+removed when using. The [dbpass](dbpass.php) contains sensitive info and therefore is stored on the server not the repo.
 
 Install Mysql locally:
 - How I setup local devlopment with a full mysql db to get this working

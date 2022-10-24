@@ -1,7 +1,9 @@
 ## Initial dev setup
 
 If this is too long, a faster setup is to skip the php/apache sections and instead edit your files locally 
-but then `build`/`deploy` them to remote host and view changes there by visiting the public url.
+but then `build`/`deploy` them to remote host and view changes there by visiting the [public url](https://nate.nfshost.com/food-map/).
+
+[Take a look at the app](https://nate.nfshost.com/food-map/) running on a dev server to see what we are buildling.
 
 - Get ssh access to the development server: `nate`
   - `ssh <your_user>_nate@ssh.phx.nearlyfreespeech.net`
@@ -49,6 +51,8 @@ but then `build`/`deploy` them to remote host and view changes there by visiting
       ❯ which httpd
       /usr/sbin/httpd
       ```
+      - TODO: research why my local doesn't show this and httpd services not running
+      - but the app still loads as expected
   - Make changes to the conf file already used by MacOS.
   - `/usr/local/etc/httpd/httpd.conf`
     - Change the port from 8080 to 80
@@ -73,9 +77,13 @@ The main dev branch uses node v6, webpack v1, and the airtable.sqlite database.
 - Edit the env/local && serverconfig/local files to match your local file paths as needed
 - not all files here need to be changed, you can run git diff to see what the script `setup:dev` alters
 - `npm run setup:dev` to use files and settings specific to your local env
-- This is a temp solution until a proper .env file is set up, unfortunately this requires you to reset the env when committing
-- `npm run setup:prod` when you are ready to rebase or commit changes
-- `npm run build` to bundle all the js into the /dist folder where its read by apache
+  - This is a temp solution until a proper .env file is set up, unfortunately this temp solution requires you to reset the env when committing
+  - `npm run setup:prod` when you are ready to rebase or commit changes
+  - `npm run build` to bundle all the js into the /dist folder where its read by apache
+- `npm run dev`: webpack bundles and provides a link to localhost:3000
+- verify the webapp loads ok: open the link, 
+  - inspect the console messages 
+  - inspect the Network tab, verify you get 200 responses with json payloads
 
 #### In order to run on the server
 
