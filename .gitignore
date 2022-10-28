@@ -11,6 +11,6 @@ dist/*
 node_modules/*
 npm-debug.log
 npm-debug.log.*
-prod/server/dbpass.php
+server/database.php
 serverconfig/*
 
