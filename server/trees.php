@@ -13,40 +13,6 @@
 
   function read() {
     sec_session_continue(); // Our custom secure way of starting a PHP session.
-    $extra = 0;
-    // if(isset($_GET['id'])) {
-    //   // $public = "0,1";
-    //   // $_SESSION['public'] = $public;
-    //   // $flags = getDefaultFlags();
-    //   // $_SESSION['flag_ids'] = $flags;
-    //   // $foods = calcSeasonFoods(0);
-    //   // $_SESSION['food_ids'] = $foods;
-    //   // $adopt = "0";
-    //   // $_SESSION['adopt'] = $adopt;
-    //   // $rates = "-1,0,1,2,3,4,5";
-    //   // $_SESSION['rates'] = $rates;
-    //
-    //   $sql = "SELECT `food` FROM `tree` WHERE `id` = ". $_GET['id'];
-    //   try {
-    //     $pdo = getConnection();
-    //     $stmt = $pdo->prepare($sql);
-    //     $stmt->execute();
-    //     $result = $stmt->fetchAll();
-    //     $pdo = null;
-    //     if (sizeof($result)) {
-    //       $extra = $result[0]['food'];
-    //     }
-    //   } catch(PDOException $e) {
-    //     $json = array(
-    //       "code" => $e->getCode(),
-    //       "message" => $e->getMessage(),
-    //     );
-    //     echo json_encode($json);
-    //   }
-    // }
-
-
-
     $check = admin_check();
     $sql = "SELECT * FROM `tree` WHERE ";
 
@@ -71,27 +37,12 @@
 
     // Food basic filtering
     if (isset($_SESSION['food_ids'])) {
-      $foodList = explode(",", $_SESSION['food_ids']);
-      if (!in_array(strval($extra), $foodList)) {
-        array_push($foodList, strval($extra));
-      }
-      $_SESSION['food_ids'] = implode(",", $foodList);
       $sql .= "AND `food` IN (".$_SESSION['food_ids'].") ";
     } else {
-      //$sql .= "AND `food` IN (0) ";
-      $foods = calcSeasonFoods($extra);
+      $foods = calcSeasonFoods();
       $sql .= "AND `food` IN (" . $foods . ") ";
     }
-    // Flag basic filtering
-    // $flagsize = getFlagSize();
-    // $flags = "0";
-    // for ($i = 1; $i <= $flagsize; $i++) {
-    //   if (isset($_SESSION['flag_ids'])) {
-    //     $sql .= "AND SUBSTRING_INDEX(`flag`, ',', " . $i . ") IN (" . $_SESSION['flag_ids'] . ") ";
-    //   } else {
-    //     $sql .= "AND SUBSTRING_INDEX(`flag`, ',', " . $i . ") IN (" . $flags . ") ";
-    //   }
-    // }
+
     if (isset($_SESSION['adopt'])) {
       if (isset($_SESSION['user_id'])) {
         $userId = intval($_SESSION['user_id']);

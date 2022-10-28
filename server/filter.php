@@ -119,7 +119,7 @@
     if (isset($_SESSION['food_ids'])) {
       $foods = $_SESSION['food_ids'];
     } else {
-      $foods = calcSeasonFoods(0);
+      $foods = calcSeasonFoods();
       $_SESSION['food_ids'] = $foods;
     }
     $params = array(
@@ -146,7 +146,7 @@
     $_SESSION['public'] = $public;
     $dead = "0";
     $_SESSION['dead'] = $dead;
-    $foods = calcSeasonFoods(0);
+    $foods = calcSeasonFoods();
     $_SESSION['food_ids'] = $foods;
     $adopt = "0";
     $_SESSION['adopt'] = $adopt;
