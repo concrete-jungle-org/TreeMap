@@ -58,7 +58,7 @@ export function updateFilter(mode, ids, resolve, reject) {
     type: 'POST',
     data: {
       'mode': mode,
-      'ids': ids.toString(),
+      'ids': JSON.stringify(ids)
     },
     cache: false,
     dataType: "json"

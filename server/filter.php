@@ -22,7 +22,7 @@
     $check = admin_check();
     if ($_POST['mode'] == 1) {
       if ($_POST['ids'] != "") {
-        $_SESSION['food_ids'] = $_POST['ids'];
+        $_SESSION['food_ids'] = json_decode($_POST['ids']);
       } else {
         $_SESSION['food_ids'] = null;
       }
@@ -68,9 +68,19 @@
       $rates = "-1,0,1,2,3,4,5";
       $_SESSION['rates'] = $rates;
     }
-    if (!isset($_SESSION['food_ids'])) {
-      $foods = calcSeasonFoods(0);
-      $_SESSION['food_ids'] = $foods;
+    $foods = [];
+    if (isset($_SESSION['legacy_db'])) {
+      //TODO: not a complete solution, nothing works with this new session variable
+      //TODO: more work needed if we want to have this code work with both sqlite schemas
+      if (!isset($_SESSION['legacy_food_ids'])) {
+        $foods = calcSeasonFoods();
+        $_SESSION['legacy_food_ids'] = $foods;
+      }
+    } else {
+      if (!isset($_SESSION['food_ids'])) {
+        $foods = calcSeasonFoods();
+        $_SESSION['food_ids'] = $foods;
+      }
     }
 
     $params = array(
@@ -141,13 +151,23 @@
     $dead = null;
     $adopt = null;
     $rates = null;
-
     $public = "0,1";
+
+    //TODO: create an .env file adding this dotenv pkg 
+    //this is a temp fix. it works so long as the web app user navigates to food-map main change and this remains the first web request
+    $_SESSION['legacy_db'] = 'sqlite'; // mysql | sqlite
+    unset($_SESSION['legacy_db']); // remove legacy flag when using airtable.sqlite db
+
     $_SESSION['public'] = $public;
     $dead = "0";
     $_SESSION['dead'] = $dead;
-    $foods = calcSeasonFoods();
-    $_SESSION['food_ids'] = $foods;
+    $foods = calcSeasonFoods(); //note: this depends on SESSION legacy_db already being set
+    if (isset($_SESSION['legacy_db'])) {
+      //NOTE: legacy foods not fully implemented, maybe best to remove
+      $_SESSION['legacy_food_ids'] = $foods;
+    } else {
+      $_SESSION['food_ids'] = $foods;
+    }
     $adopt = "0";
     $_SESSION['adopt'] = $adopt;
     $rates = "-1,0,1,2,3,4,5";

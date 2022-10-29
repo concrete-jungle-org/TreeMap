@@ -57,6 +57,7 @@ export default class TreeFood extends React.Component {
     let icon;
     let food = FoodStore.getFood(option.value);
     if (food) {
+      //Note:  Data missing at source, airtable needs the icon typed back into the Food.icon column.
       icon = ServerSetting.uBase + ServerSetting.uStaticImage + food.icon;
     } else {
       if (parseInt(option.value) == -1) {
@@ -71,7 +72,7 @@ export default class TreeFood extends React.Component {
     var foods = [];
     if (selected) {
       selected.forEach(option => {
-        foods.push(parseInt(option.value));
+        foods.push(option.value);
       });
     }
     updateFilter(FITERMODE.FOOD, foods, function(response) {  // Resolve
@@ -96,7 +97,7 @@ export default class TreeFood extends React.Component {
               if (response.code == 200) {
                 TreeActions.fetchTrees();
                 let foods = response.foods.split(',').map((food) => {
-                  return parseInt(food);
+                  return food;
                 });
                 let props = {
                   foods: foods,

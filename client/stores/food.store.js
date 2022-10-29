@@ -22,7 +22,7 @@ export class FoodModel {
     }
   }
   update(props) {
-    this.id = parseInt(props.id);
+    this.id = props.id;
     this.name = props.name;
     this.icon = props.icon;
     this.updated = moment(props.updated);
@@ -99,7 +99,7 @@ class FoodStore {
     this.code = 200;
   }
   handleUpdatedFood(props) {
-    let foods = this.foods.filter(food => food.id == parseInt(props.id));
+    let foods = this.foods.filter(food => food.id == props.id);
     if (foods.length == 1) {
       foods[0].update(props);
     }

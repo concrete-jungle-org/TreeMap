@@ -42,8 +42,8 @@ export default class TreeFilter extends React.Component {
         });
       }
       let dead = parseInt(response.dead);
-      let foods = response.foods.split(",").map(function(food) {
-        return parseInt(food);
+      let foods = response.foods.map(function(food) {
+        return food;
       });
       let ownerships = response.ownerships.split(",").map(function(ownership) {
         return parseInt(ownership);

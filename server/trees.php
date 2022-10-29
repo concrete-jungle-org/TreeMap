@@ -35,12 +35,35 @@
 
     $sql .= "AND `dead` IN (".$dead.") ";
 
-    // Food basic filtering
-    if (isset($_SESSION['food_ids'])) {
-      $sql .= "AND `food` IN (".$_SESSION['food_ids'].") ";
+    if (isset($_SESSION['legacy_db'])) {
+      // Legacy Food basic filtering, list of ints
+      if (isset($_SESSION['legacy_food_ids'])) {
+        $sql .= "AND `food` IN (".$_SESSION['legacy_food_ids'].") ";
+      } else {
+        $foods = calcSeasonFoods();
+        $sql .= "AND `food` IN (" . $foods . ") ";
+      }
     } else {
-      $foods = calcSeasonFoods();
-      $sql .= "AND `food` IN (" . $foods . ") ";
+      // Airtable Food basic filtering, list of strings
+      $foodList = [];
+      if (isset($_SESSION['food_ids'])) {
+        $foodList = $_SESSION['food_ids'];
+      } else {
+        $foodList = calcSeasonFoods();
+      }
+
+      //In the db Tree.food values look like this: '["recOMoRrvE7GlOJ6M"]'
+      //Wrap the food.id to create a query like: `food` IN ('["recOMoRrvE7GlOJ6M"]')
+      $wrappedFoods = '';
+      foreach ($foodList as $foodId) {
+        $wrap = '["'.$foodId.'"]';
+        if ($wrappedFoods == '') { // first food only
+          $wrappedFoods .= $wrap;
+        } else { //subsequent foods
+          $wrappedFoods .= "','".$wrap;
+        }
+      }
+      $sql .= "AND `food` IN ('".$wrappedFoods."') ";
     }
 
     if (isset($_SESSION['adopt'])) {

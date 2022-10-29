@@ -228,17 +228,28 @@
     if (!$check) {
       $sql = "SELECT id FROM `food` WHERE `season` = 1 AND `farm` = 0";
     }
+    $is_legacy = false; //legacy is the sqlite table exported from mysql
+    if (isset($_SESSION['legacy_db'])) {
+      $is_legacy = true;
+    }
     try {
       $pdo = getConnection();
       $stmt = $pdo->prepare($sql);
       $stmt->execute();
       $result = $stmt->fetchAll();
       $pdo = null;
-      $foods = [-1];
-      foreach ($result as $food) {
-        array_push($foods, $food["id"]);
+      $foods = []; // ids for foods that are in season
+      if ($is_legacy) {
+        $foods = [-1]; //Note no food exists with id -1, the purpose of this constant is unclear
       }
-      return implode(',', $foods);
+      foreach ($result as $food) {
+        array_push($foods, $food['id']);
+      }
+      if ($is_legacy) {
+        return implode(',', $foods);
+      } else {
+       return $foods;
+      }
     } catch(PDOException $e) {
       return '{"error":{"text":'. $e->getMessage() .'}}';
     }
