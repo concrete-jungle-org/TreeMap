@@ -228,6 +228,7 @@
     if (!$check) {
       $sql = "SELECT id FROM `food` WHERE `season` = 1 AND `farm` = 0";
     }
+    $is_legacy = false;
     if ($_ENV['DB_SCHEMA_VERSION'] == 'mysql') {
       $is_legacy = true;
     }
