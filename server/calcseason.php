@@ -12,6 +12,12 @@
   }
 
   function read() {
+    // Turning off this feature, foods will no longer maintain a 0 or 1 for whether or not they are in season
+    // Reimplement this for sqlite or redesign it? this is an expensive write query on every load of food-map
+    $params = array( "code" => 200);
+    echo json_encode($params);
+    return;
+
     $startthisyear = new DateTime('-1 MONTH', new DateTimeZone('America/Los_Angeles')); // first argument uses strtotime parsing
     $endthisyear = new DateTime('+1 MONTH', new DateTimeZone('America/Los_Angeles')); // first argument uses strtotime parsing
     $startlastyear = new DateTime('-13 MONTH', new DateTimeZone('America/Los_Angeles')); // first argument uses strtotime parsing
