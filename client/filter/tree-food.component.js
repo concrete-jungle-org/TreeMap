@@ -96,11 +96,8 @@ export default class TreeFood extends React.Component {
             resetFilter().then(function(response) {
               if (response.code == 200) {
                 TreeActions.fetchTrees();
-                let foods = response.foods.split(',').map((food) => {
-                  return food;
-                });
                 let props = {
-                  foods: foods,
+                  foods: response.foods,
                 };
                 this.updateProps(props);
               } else {

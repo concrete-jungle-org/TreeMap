@@ -84,21 +84,17 @@ export default class TreeFood extends React.Component {
   updateAttribute(selected) {
     var foodId = 0;
     if (selected) {
-      foodId = parseInt(selected.value);
+      foodId = selected.value;
     }
-    if (parseInt(this.state.selected.value) != parseInt(selected.value)) {
+    if (this.state.selected.value != selected.value) {
       TreeActions.setCode(94);  // Unsaved change code (see errorlist.xlsx for more detail).
     }
     this.props.tree.food = foodId;
     // Add food type to filter so that other same type of trees can be revealed on the map.
     readFilter(function(response) { // Resolve callback.
-      let foods = response.foods.split(",").map(function(food) {
-        return parseInt(food);
-      });
-      if ($.inArray(foodId, foods) == -1) {
-        foods.push(foodId);
-      }
-      updateFilter(FITERMODE.FOOD, foods, function(response) {  // Resolve
+      let foods = new Set(response.foods);
+      foods.add(foodId)
+      updateFilter(FITERMODE.FOOD, Array.from(foods), function(response) {  // Resolve
         TreeActions.fetchTrees();
       }, function(response) { // Reject
 
