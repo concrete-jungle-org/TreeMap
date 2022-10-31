@@ -11,5 +11,6 @@ dist/*
 node_modules/*
 npm-debug.log
 npm-debug.log.*
+server/.env
 serverconfig/*
 vendor/

@@ -1,5 +1,8 @@
 <?php
   include_once 'functions.php';
+  require '../vendor/autoload.php';
+  $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+  $dotenv->load();
 
   switch($_SERVER['REQUEST_METHOD']){
     case 'POST':
@@ -69,9 +72,8 @@
       $_SESSION['rates'] = $rates;
     }
     $foods = [];
-    if (isset($_SESSION['legacy_db'])) {
-      //TODO: not a complete solution, nothing works with this new session variable
-      //TODO: more work needed if we want to have this code work with both sqlite schemas
+    if ($_ENV['DB_SCHEMA_VERSION'] == 'mysql') {
+      //NOTE: this condition is not supported
       if (!isset($_SESSION['legacy_food_ids'])) {
         $foods = calcSeasonFoods();
         $_SESSION['legacy_food_ids'] = $foods;
@@ -153,17 +155,12 @@
     $rates = null;
     $public = "0,1";
 
-    //TODO: create an .env file adding this dotenv pkg 
-    //this is a temp fix. it works so long as the web app user navigates to food-map main change and this remains the first web request
-    $_SESSION['legacy_db'] = 'sqlite'; // mysql | sqlite
-    unset($_SESSION['legacy_db']); // remove legacy flag when using airtable.sqlite db
-
     $_SESSION['public'] = $public;
     $dead = "0";
     $_SESSION['dead'] = $dead;
-    $foods = calcSeasonFoods(); //note: this depends on SESSION legacy_db already being set
-    if (isset($_SESSION['legacy_db'])) {
-      //NOTE: legacy foods not fully implemented, maybe best to remove
+    $foods = calcSeasonFoods();
+    if ($_ENV['DB_SCHEMA_VERSION'] == 'mysql') {
+      //NOTE: this condition is not currently supported
       $_SESSION['legacy_food_ids'] = $foods;
     } else {
       $_SESSION['food_ids'] = $foods;
