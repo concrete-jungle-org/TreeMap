@@ -65,6 +65,8 @@ export default class MapTree extends React.Component {
     // Define tile maps and store into the MapModel.
     if (!MapStore.getMapModel(MapSetting.sMapId).flatTileLayer) {
       MapStore.getMapModel(MapSetting.sMapId).flatTileLayer = this.flatTileLayer = L.tileLayer(MapSetting.uGrayTileMap + MapSetting.sMapboxAccessToken, {
+          tileSize: 512,
+          zoomOffset: -1,
           minZoom: MapSetting.iMinZoom,
           maxZoom: MapSetting.iMaxZoom,
       });
