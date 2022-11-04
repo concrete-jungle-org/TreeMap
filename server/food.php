@@ -4,6 +4,7 @@
   header("Pragma: no-cache");
 
   include_once 'functions.php';
+  include_once 'foodFetcher.php';
   sec_session_continue(); // Our custom secure way of starting a PHP session.
 
   switch($_SERVER['REQUEST_METHOD']){
@@ -62,6 +63,7 @@
         "updated" => date("Y-m-d H:i:s"),
       );
     }
+    //NOTE: This update would set the icon field to a simple text string, that will break on the next read where an object is expected
     $sql = "UPDATE `food` SET `id` = :id, `name` = :name, `icon` = :icon, `adopt` = :adopt, `updated` = :updated WHERE (`id` = :id)";
     try {
       $pdo = getConnection();
@@ -76,7 +78,7 @@
       try {
         $stmt = $pdo->prepare($sql);
         $stmt->execute($params);
-        $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $result = $stmt->fetchAll(PDO::FETCH_CLASS, 'Food');
         $pdo = null;
         $params = array(
           "code" => 200,

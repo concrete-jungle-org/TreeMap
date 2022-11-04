@@ -6,6 +6,7 @@
 
 
   include_once 'functions.php';
+  include_once 'treeFetcher.php';
   sec_session_continue(); // Our custom secure way of starting a PHP session.
 
   switch($_SERVER['REQUEST_METHOD']){
@@ -57,8 +58,9 @@
     try {
       $pdo = getConnection();
       $stmt = $pdo->prepare($sql);
+      $stmt->setFetchMode(PDO::FETCH_CLASS, 'Tree');
       $stmt->execute($params);
-      $result = $stmt->fetch(PDO::FETCH_OBJ);
+      $result = $stmt->fetch();
       $pdo = null;
       $json = array(
         "code" => 200,

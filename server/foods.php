@@ -4,6 +4,7 @@
   header("Pragma: no-cache");
 
   include_once 'functions.php';
+  include_once 'foodFetcher.php';
 
   switch($_SERVER['REQUEST_METHOD']){
     case 'POST':
@@ -32,7 +33,7 @@
       $pdo = getConnection();
       $stmt = $pdo->prepare($sql);
       $stmt->execute();
-      $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+      $result = $stmt->fetchAll(PDO::FETCH_CLASS, 'Food');
       $pdo = null;
       $params = array(
         "code" => 200,

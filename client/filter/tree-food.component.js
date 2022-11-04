@@ -57,7 +57,6 @@ export default class TreeFood extends React.Component {
     let icon;
     let food = FoodStore.getFood(option.value);
     if (food) {
-      //Note:  Data missing at source, airtable needs the icon typed back into the Food.icon column.
       icon = ServerSetting.uBase + ServerSetting.uStaticImage + food.icon;
     } else {
       if (parseInt(option.value) == -1) {

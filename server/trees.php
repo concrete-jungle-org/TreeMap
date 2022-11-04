@@ -4,6 +4,7 @@
   header("Pragma: no-cache");
 
   include_once 'functions.php';
+  include_once 'treeFetcher.php';
 
   switch($_SERVER['REQUEST_METHOD']){
     case 'GET':
@@ -52,18 +53,16 @@
         $foodList = calcSeasonFoods();
       }
 
-      //In the db Tree.food values look like this: '["recOMoRrvE7GlOJ6M"]'
-      //Wrap the food.id to create a query like: `food` IN ('["recOMoRrvE7GlOJ6M"]')
-      $wrappedFoods = '';
-      foreach ($foodList as $foodId) {
-        $wrap = '["'.$foodId.'"]';
-        if ($wrappedFoods == '') { // first food only
-          $wrappedFoods .= $wrap;
-        } else { //subsequent foods
-          $wrappedFoods .= "','".$wrap;
+      //In the db Tree.food is a single item array: '["recABC"]'
+      //To query a list, each array its own string: `food` IN ('["recABC"]', '["rec123"]')
+      $encodedFoods = '';
+      foreach ($foodList as $food) {
+        if ($encodedFoods != '') {
+          $encodedFoods .= "','";
         }
+        $encodedFoods .= json_encode(array($food));
       }
-      $sql .= "AND `food` IN ('".$wrappedFoods."') ";
+      $sql .= "AND `food` IN ('".$encodedFoods."') ";
     }
 
     if (isset($_SESSION['adopt'])) {
@@ -111,7 +110,7 @@
       $pdo = getConnection();
       $stmt = $pdo->prepare($sql);
       $stmt->execute();
-      $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+      $result = $stmt->fetchAll(PDO::FETCH_CLASS, 'Tree');
       $pdo = null;
       $params = array(
         "code" => 200,

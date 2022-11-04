@@ -33,6 +33,8 @@
       );
     }
     $sql = "SELECT * FROM `note` WHERE (`tree` IN (".$params["treeIds"].")) AND type = 2 ORDER BY `date` DESC";
+    //NOTE: Not yet supported, params.treeIds are numbers like 1484, but database Note.Tree uses values like ["recABC", "recETC"]
+    //NOTE: Typically notes are related to 1 tree, but some notes have multiple tree ids in their Tree column. Im not sure this query would work for such a note.
     try {
       $pdo = getConnection();
       $stmt = $pdo->prepare($sql);

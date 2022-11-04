@@ -30,7 +30,7 @@ const TreeSource = {
       });
     });
   },
-  fetchTrees(id = -1) {
+  fetchTrees() {
     return new Promise(function (resolve, reject) {
       $.ajax({
         url: ServerSetting.uBase + ServerSetting.uServer + "trees.php",

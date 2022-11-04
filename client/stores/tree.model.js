@@ -31,7 +31,7 @@ export class TreeModel {
     this.id = parseInt(props.id);
     this.lat = parseFloat(parseFloat(props.lat).toFixed(MapSetting.iMarkerPrecision));
     this.lng = parseFloat(parseFloat(props.lng).toFixed(MapSetting.iMarkerPrecision));
-    this.food = parseInt(props.food);
+    this.food = props.food;
     this.description = props.description;
     this.address = props.address;
     this.ownership = parseInt(props.public);  // ownership (public or private).
