@@ -51,17 +51,30 @@ class FoodStore {
     });
     // Expose public methods.
     this.exportPublicMethods({
-      getFood: this.getFood,
+      getFood: this.getFoodMemoized(),
       getFoodIcons: this.getFoodIcons,
     });
   }
 
-  getFood(id) {
-    let foods = this.getState().foods.filter(food => food.id == id);
-    if (foods.length == 1) {
-      return foods[0];
-    }
-    return null;
+  //Often executed against a filtered list of a single tree type all of which have same food
+  //this operation is not expensive however. Memoizing it is a trivial performance gain
+  getFoodMemoized(id) {
+    let prevResult, prevId;
+    return function(id) {
+      if (id && id === prevId) {
+        return prevResult;
+      }
+      let result;
+      let foods = this.getState().foods.filter(food => {
+        return food.id == id
+      });
+      if (foods.length == 1) {
+        result = foods[0];
+      }
+      prevResult = result;
+      prevId = id;
+      return result;
+    };
   }
   getFoodIcons() {
     let result = [ServerSetting.uBase + ServerSetting.uStaticImage + MapSetting.uShadowMarker, ServerSetting.uBase + ServerSetting.uStaticImage + MapSetting.uCheckMarkerIcon, ServerSetting.uBase + ServerSetting.uStaticImage + MapSetting.uFarmMarkerIcon, ServerSetting.uBase + ServerSetting.uStaticImage + MapSetting.uTemporaryMarkerIcon];
