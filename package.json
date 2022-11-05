@@ -9,7 +9,7 @@
     "setup:dev": "cp -f env/local/index.html . && cp -f env/local/server.json setting/",
     "setup:prod": "cp -f env/production/index.html . && cp -f env/production/server.json setting/",
     "sync:client": "rsync -azP ./dist/ ${CJ_PROD_USER}@${CJ_PROD_HOST}:/home/public/food-map/dist",
-    "sync:server": "rsync -azP ./server/ ${CJ_PROD_USER}@${CJ_PROD_HOST}:/home/public/food-map/server"
+    "sync:server": "rsync -azP --exclude server/env ./server/ ${CJ_PROD_USER}@${CJ_PROD_HOST}:/home/public/food-map/server"
   },
   "keywords": [
     "React",
