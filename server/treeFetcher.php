@@ -4,12 +4,11 @@
   header("Pragma: no-cache");
 
   class Tree {
-   public $id_number;
    public $id;
    public $airtable_id;
    public $lat;
    public $lng;
-   /* public $food; */
+   /* public $food; */ //transformed in __set function
    public $owner;
    public $description;
    public $full;
