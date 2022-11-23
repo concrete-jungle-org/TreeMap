@@ -7,7 +7,6 @@ let FlagStore = require('./../stores/flag.store');
 let ServerSetting = require('./../../setting/server.json');
 let MapSetting = require('./../../setting/map.json');
 
-
 export class FoodModel {
   constructor(props) {
     this.update(props);
@@ -79,7 +78,12 @@ class FoodStore {
   getFoodIcons() {
     let result = [ServerSetting.uBase + ServerSetting.uStaticImage + MapSetting.uShadowMarker, ServerSetting.uBase + ServerSetting.uStaticImage + MapSetting.uCheckMarkerIcon, ServerSetting.uBase + ServerSetting.uStaticImage + MapSetting.uFarmMarkerIcon, ServerSetting.uBase + ServerSetting.uStaticImage + MapSetting.uTemporaryMarkerIcon];
     this.getState().foods.forEach((food) => {
-      result.push(ServerSetting.uBase + ServerSetting.uStaticImage + food.icon);
+      if (food.icon) {
+        result.push(ServerSetting.uBase + ServerSetting.uStaticImage + food.icon);
+      } else {
+        console.warn(`${food.name} has no associated icon to render on the map.`)
+        result.push(ServerSetting.uBase + ServerSetting.uStaticImage + MapSetting.uTemporaryMarkerIcon);
+      }
     });
     return result;
   }

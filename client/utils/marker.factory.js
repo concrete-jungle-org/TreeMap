@@ -81,7 +81,7 @@ export function createSVGTreeMarker(tree, movable) {
     template = '<div class="marker-left"></div><div class="marker-name"><span class="marker-food">' + localization(48) + '</span></div><div class="marker-right"></div>';
   } else {
     let food = FoodStore.getFood(tree.food);
-    if (food) {
+    if (food && food.icon) {
       image = ServerSetting.uBase + ServerSetting.uStaticImage + food.icon;
       template = '<div class="marker-left"></div><div class="marker-name"><span class="marker-food">' + food.name + '</span>#<span class="marker-tree">' + tree.id + '</span></div><div class="marker-right"></div>';
     } else {

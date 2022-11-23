@@ -70,7 +70,7 @@ export default class TreeFood extends React.Component {
   renderOptionValue(option) {
     let icon;
     let food = FoodStore.getFood(option.value);
-    if (food) {
+    if (food && food.icon) {
       icon = ServerSetting.uBase + ServerSetting.uStaticImage + food.icon;
     } else {
       if (parseInt(option.value) == -1) {
