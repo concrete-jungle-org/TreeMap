@@ -55,7 +55,6 @@
     "connect-history-api-fallback": "1.2.0",
     "es6-enum": "1.0.3",
     "font-awesome": "./patched_modules/font-awesome/",
-    "image-preloader-promise": "./patched_modules/image-preloader-promise/",
     "intro.js": "2.7.0",
     "intro.js-react": "0.1.5",
     "jquery": "3.1.0",

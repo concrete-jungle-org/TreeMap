@@ -13,7 +13,7 @@ export default class ImagePreloader {
 			};
 			
 			img.onload = function () {
-				resolve();
+				resolve(img);
 			};
 			
 			img.src = path;

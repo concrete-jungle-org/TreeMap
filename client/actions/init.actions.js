@@ -1,6 +1,6 @@
 let alt = require('../alt');
 
-import ImagePreloader from 'image-preloader-promise';
+import ImagePreloader from './../utils/image-preloader-promise';
 let ServerSetting = require('./../../setting/server.json');
 import { updateSeason } from './../utils/season';
 import { getLocalization, setLocalization } from './../utils/localization';
@@ -18,12 +18,6 @@ let LocationActions = require('./../actions/location.actions');
 import { MESSAGETYPE } from './../utils/enum';
 
 class InitActions {
-  setCode(code) {
-    return (dispatch) => {
-      dispatch(code);
-    }
-  }
-
   initialize(id = 0) {
     this.setMessage(MESSAGETYPE.SUCCESS, "Loading FoodParent...");
     return (dispatch) => {
