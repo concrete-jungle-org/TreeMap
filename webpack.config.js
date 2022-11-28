@@ -33,7 +33,6 @@ var vendorList = [
   "leaflet.markercluster",
   "leaflet-canvas-marker",
   "googletile",
-  "image-preloader-promise",
   "underscore",
   "moment",
   "react-fontawesome",
