@@ -1,6 +1,6 @@
 {
     "require": {
-        "mailgun/mailgun-php": "^1.7.2.0",
-        "vlucas/phpdotenv": "^5.5"
+        "vlucas/phpdotenv": "^5.5",
+        "guym4c/airtable-client": "^4.0"
     }
 }

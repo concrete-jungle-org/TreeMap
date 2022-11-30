@@ -7,7 +7,15 @@
   require_once("mailconfig.php");
   # Include the Autoloader (see "Libraries" for install instructions)
   require '../vendor/autoload.php';
-  use Mailgun\Mailgun;
+
+  // Removed mailgun, because it prevented adding an airtable-php library
+  // Also it required an outdated version of guzzle, some abandoned packages and security advisories.
+  // The feature it was supporting may no longer be needed at all, but I've kept the code in case
+  class Mailgun {
+    function sendMessage($domain, $fields) {
+      echo 'This feature has been removed.'
+    }
+  }
 
   switch($_SERVER['REQUEST_METHOD']){
     case 'POST':
@@ -65,7 +73,7 @@
 
     # Instantiate the client.
     $mg = new Mailgun($config->apikey);
-
+ 
     # Detect base url.
     $settings = json_decode(file_get_contents("../dist/setting/server.json"), true);
     $test = filter_var($settings['bTestMail'], FILTER_VALIDATE_BOOLEAN);
