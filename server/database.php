@@ -7,7 +7,8 @@
   function getSqliteDSN() {
     $root = $_ENV['PATH_TO_REPO'];
     $rel_path = $_ENV['PATH_TO_DB'];
-    $full_path = "$root$rel_path";
+    $file_name = $_ENV['FILE_NAME'];
+    $full_path = "$root$rel_path$file_name";
     return "sqlite:$full_path";
   }
 
