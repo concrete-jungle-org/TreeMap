@@ -6,7 +6,8 @@
 
 
   include_once 'functions.php';
-  include_once 'treeFetcher.php';
+  include_once 'treeRow.php';
+  include_once 'treeDB.php';
   sec_session_continue(); // Our custom secure way of starting a PHP session.
 
   switch($_SERVER['REQUEST_METHOD']){
@@ -58,7 +59,7 @@
     try {
       $pdo = getConnection();
       $stmt = $pdo->prepare($sql);
-      $stmt->setFetchMode(PDO::FETCH_CLASS, 'Tree');
+      $stmt->setFetchMode(PDO::FETCH_CLASS, 'TreeRow');
       $stmt->execute($params);
       $result = $stmt->fetch();
       $pdo = null;
@@ -136,63 +137,19 @@
 
   function create() {
     $data = json_decode(file_get_contents('php://input'));
-    $owner = 0;
+    $owner = "0";
     if (isset($_SESSION['user_id'])) {
-      $owner = intval($_SESSION['user_id']);;
+      $owner = $_SESSION['user_id'];
     }
-    $params = array(
-      "lat" => $data->{'lat'},
-      "lng" => $data->{'lng'},
-      "food" => $data->{'food'},
-      "owner" => $owner,
-      "description" => $data->{'description'},
-      "address" => $data->{'address'},
-      "public" => $data->{'public'},
-      "dead" => $data->{'dead'},
-      "parent" => $data->{'parent'},
-      "rate" => $data->{'rate'},
-      "updated" => date("Y-m-d H:i:s"),
-    );
-    $sql = "INSERT INTO `tree` VALUES ( NULL, :lat, :lng, :food, :owner, :description, :address, :public, :dead, :parent, :rate, :updated )";
 
     try {
-      $pdo = getConnection();
-      $stmt = $pdo->prepare($sql);
-      $stmt->execute($params);
-
-      $sql = "SELECT * FROM `tree` WHERE `id` = :id";
+      $treeDB = new TreeDatabase();
+      $newTree = $treeDB->create((array) $data);
       $params = array(
-        "id" => $pdo->lastInsertId(),
+        "code" => 200,
+        "tree" => $newTree,
       );
-
-      // Store newly added tree into a cookie so that users can edit before cookie being expired.
-      if (isset($_SESSION['temp_trees']) && $_SESSION['temp_trees'] != null) {
-        $temp_trees = explode(",", $_SESSION['temp_trees']);
-        array_push($temp_trees, $params['id']);
-        $_SESSION['temp_trees'] = implode(',', $temp_trees);
-      } else {
-        $_SESSION['temp_trees'] = $params['id'];
-      }
-      $_SESSION['LAST_CREATE'] = $_SERVER['REQUEST_TIME'];
-
-
-      try {
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute($params);
-        $result = $stmt->fetchAll(PDO::FETCH_OBJ);
-        $pdo = null;
-        $params = array(
-          "code" => 200,
-          "tree" => $result[0],
-        );
-        echo json_encode($params);
-      } catch(PDOException $e) {
-        $json = array(
-          "code" => $e->getCode(),
-          "message" => $e->getMessage(),
-        );
-        echo json_encode($json);
-      }
+      echo json_encode($params);
     } catch(PDOException $e) {
       $json = array(
         "code" => $e->getCode(),
