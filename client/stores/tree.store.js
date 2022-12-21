@@ -145,7 +145,7 @@ class TreeStore {
       address: "",
       owner: "0",
       parent: "0",
-      rate: "-1",
+      rate: "0",
       updated: moment(new Date()).format(ServerSetting.sServerDateFormat),
     });
     this.trees.push(this.temp);
