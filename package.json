@@ -5,11 +5,12 @@
   "scripts": {
     "dev": "webpack -d --watch --config webpack.dev.config.js",
     "build": "webpack -p --config webpack.production.config.js",
-    "deploy": "npm run sync:client",
+    "deploy": "./deploy.sh",
     "setup:dev": "cp -f env/local/index.html . && cp -f env/local/server.json setting/",
     "setup:prod": "cp -f env/production/index.html . && cp -f env/production/server.json setting/",
     "sync:client": "rsync -azP ./dist/ ${CJ_PROD_USER}@${CJ_PROD_HOST}:/home/public/food-map/dist",
-    "sync:server": "rsync -azP --exclude server/env ./server/ ${CJ_PROD_USER}@${CJ_PROD_HOST}:/home/public/food-map/server"
+    "sync:server": "rsync -azP --exclude server/.env --include ./server/ ${CJ_PROD_USER}@${CJ_PROD_HOST}:/home/public/food-map/server",
+    "sync:composer": "rsync -azP --include ./composer.* ${CJ_PROD_USER}@${CJ_PROD_HOST}:/home/public/food-map/"
   },
   "keywords": [
     "React",
