@@ -10,10 +10,10 @@
     $_SESSION['temp_notes'] = null;
   }
 
-  $temp_trees = null;
+  $temp_trees = [];
   $temp_notes = null;
   if (isset($_SESSION['temp_trees'])) {
-    $temp_trees = $_SESSION['temp_trees'];
+    $temp_trees = explode(",", $_SESSION['temp_trees']);
   }
   if (isset($_SESSION['temp_notes'])) {
     $temp_notes = $_SESSION['temp_notes'];

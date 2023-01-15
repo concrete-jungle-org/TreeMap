@@ -58,8 +58,8 @@ export class AuthModel {
         break;
     }
     this.trees = [];
-    if (props.trees) {
-      this.trees = props.trees.split(',').map((tree) => {
+    if (props.trees && props.trees.length > 0) {
+      this.trees = props.trees.map((tree) => {
         return parseInt(tree);
       });
     }

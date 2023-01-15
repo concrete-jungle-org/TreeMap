@@ -154,7 +154,7 @@ export default class MapRecipient extends React.Component {
         this.renderMarkers(props.locations, props.selected);
       }
     }
-    if (props.trees) {
+    if (props.trees && props.trees.length > 0) {
       this.renderTreeMarkers(props.trees);
     }
   }
