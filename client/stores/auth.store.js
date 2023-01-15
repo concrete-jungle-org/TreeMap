@@ -121,7 +121,7 @@ class AuthStore {
     this.code = 0;
     // Bind action methods to store.
     this.bindListeners({
-      handleFechedAuth: AuthActions.FETCHED_AUTH,
+      handleFetchedAuth: AuthActions.FETCHED_AUTH,
       handleProcessedLogout: AuthActions.PROCESSED_LOGOUT,
       handleProcessedLogin: AuthActions.PROCESSED_LOGIN,
     });
@@ -130,7 +130,7 @@ class AuthStore {
 
     });
   }
-  handleFechedAuth(props) {
+  handleFetchedAuth(props) {
     this.auth = new AuthModel(props);
     this.code = 200;
   }
