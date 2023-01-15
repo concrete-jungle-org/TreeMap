@@ -4,7 +4,7 @@
   header("Pragma: no-cache");
 
   include_once 'functions.php';
-  include_once 'treeFetcher.php';
+  include_once 'treeRow.php';
 
   switch($_SERVER['REQUEST_METHOD']){
     case 'GET':
@@ -110,7 +110,7 @@
       $pdo = getConnection();
       $stmt = $pdo->prepare($sql);
       $stmt->execute();
-      $result = $stmt->fetchAll(PDO::FETCH_CLASS, 'Tree');
+      $result = $stmt->fetchAll(PDO::FETCH_CLASS, 'TreeRow');
       $pdo = null;
       $params = array(
         "code" => 200,
