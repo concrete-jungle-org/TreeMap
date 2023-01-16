@@ -4,6 +4,26 @@
   $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
   $dotenv->load();
 
+  function rate_initialize() {
+    $allRates = [0,1,2,3,4,5];
+    $_SESSION['rates'] = $allRates;
+    return $allRates;
+  }
+
+  function rate_set(string $rates) {
+    //$rates is a stringified array from tree rate component
+    $_SESSION['rates'] = json_decode($rates);
+    return $_SESSION['rates'];
+  }
+
+  function rate_get() {
+    if (!isset($_SESSION['rates'])) {
+      rate_initialize();
+    }
+    return $_SESSION['rates'];
+  }
+
+
   switch($_SERVER['REQUEST_METHOD']){
     case 'POST':
       update();
@@ -48,11 +68,7 @@
         $_SESSION['adopt'] = null;
       }
     } else if ($_POST['mode'] == 5) {
-      if ($_POST['ids'] != "") {
-        $_SESSION['rates'] = $_POST['ids'];
-      } else {
-        $_SESSION['rates'] = null;
-      }
+      rate_set($_POST['ids']);
     }
 
     if (!isset($_SESSION['public'])) {
@@ -68,8 +84,7 @@
       $_SESSION['adopt'] = $adopt;
     }
     if (!isset($_SESSION['rates'])) {
-      $rates = "-1,0,1,2,3,4,5";
-      $_SESSION['rates'] = $rates;
+      rate_initialize();
     }
     $foods = [];
     if ($_ENV['DB_SCHEMA_VERSION'] == 'mysql') {
@@ -122,12 +137,7 @@
       $adopt = "0";
       $_SESSION['adopt'] = $adopt;
     }
-    if (isset($_SESSION['rates'])) {
-      $rates = $_SESSION['rates'];
-    } else {
-      $rates = "-1,0,1,2,3,4,5";
-      $_SESSION['rates'] = $rates;
-    }
+    $rates = rate_get();
     if (isset($_SESSION['food_ids'])) {
       $foods = $_SESSION['food_ids'];
     } else {
@@ -152,7 +162,7 @@
     $foods = null;
     $dead = null;
     $adopt = null;
-    $rates = null;
+    $rates = rate_initialize();
     $public = "0,1";
 
     $_SESSION['public'] = $public;
@@ -167,8 +177,6 @@
     }
     $adopt = "0";
     $_SESSION['adopt'] = $adopt;
-    $rates = "-1,0,1,2,3,4,5";
-    $_SESSION['rates'] = $rates;
     $params = array(
       "code" => 200,
       "ownerships" => $public,
@@ -197,8 +205,7 @@
     // $_SESSION['food_ids'] = $foods;
     $adopt = "0";
     $_SESSION['adopt'] = $adopt;
-    $rates = "-1,0,1,2,3,4,5";
-    $_SESSION['rates'] = $rates;
+    $rates = rate_initialize();
     $params = array(
       "code" => 200,
       "ownerships" => $public,

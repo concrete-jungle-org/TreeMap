@@ -52,7 +52,9 @@ export function updateFilter(mode, ids, resolve, reject) {
       break;
     case FITERMODE.RATE:
       mode = 5;
-      ids.unshift(-1);  // Fake id to handle when there is no item in ids.
+      if (ids.length === 0) {
+        ids.unshift(-1);  // Fake id to handle when there is no item in ids.
+      };
       break;
   }
   let updateFilterPromise = $.ajax({

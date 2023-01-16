@@ -87,7 +87,7 @@
       }
     }
     if (isset($_SESSION['rates'])) {
-      $sql .= "AND `rate` IN (" . $_SESSION['rates'] . ") ";
+      $sql .= "AND `rate` IN (" . implode(",", $_SESSION['rates']) . ") ";
     }
     // Don't fetch any dead tree.
     $sql .= "AND `dead` = 0 ";

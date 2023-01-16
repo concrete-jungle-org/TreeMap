@@ -48,7 +48,7 @@ export default class TreeFilter extends React.Component {
       let ownerships = response.ownerships.split(",").map(function(ownership) {
         return parseInt(ownership);
       });
-      let rates = response.rates.split(",").map(function(rate) {
+      let rates = response.rates.map(function(rate) {
         return parseInt(rate);
       });
       this.setState({adopts: adopts, dead: dead, foods: foods, ownerships: ownerships, rates: rates});
