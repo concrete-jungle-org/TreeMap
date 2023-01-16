@@ -1,8 +1,5 @@
 import React from 'react';
-import ReactTooltip from 'react-tooltip';
-import AltContainer from 'alt-container';
 import Select from 'react-select';
-import $ from 'jquery';
 
 
 require('./tree-rate.component.scss');
