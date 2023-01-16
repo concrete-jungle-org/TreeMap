@@ -29,3 +29,6 @@ cp -f env/local/server.json ./setting/
 # /home/protected/gh_dl_script.sh
 # gets a new copy of db from the cj-airtable repo
 # and then applies 2 alter table statements to the result
+
+# IF the db file location changed, verify the user, web,
+# has access to every dir from /public up to and including db file
