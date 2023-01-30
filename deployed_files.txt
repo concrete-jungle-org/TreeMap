@@ -1,0 +1,8 @@
+dist/
+server/
+vendor/
+favicons/
+static/
+index.html
+composer.json
+composer.lock

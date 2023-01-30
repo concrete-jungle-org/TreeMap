@@ -1,0 +1,43 @@
+name: deploy-staging
+on:
+  push:
+    branches:
+      - main
+      - dev
+jobs:
+  build-the-app:
+    runs-on: ubuntu-latest
+    steps: 
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 6
+      - name: Copy patched_modules to node_modules
+        run: |
+          mkdir node_modules
+          cp -r patched_modules/* ./node_modules
+      - name: Install js dependencies
+        run: npm install
+      - name: Check value of font-awesome matches patched values
+        run: |
+          head -n 4 patched_modules/font-awesome/scss/_variables.scss
+          head -n 4 node_modules/font-awesome/scss/_variables.scss
+      - name: Build client bundle /dist
+        run: npm run build
+      - name: Install php dependencies /vendor
+        uses: php-actions/composer@v6
+        with:
+          php_version: "8.0"
+          version: 2
+      - name: Add dev server as a known_host
+        run: |
+          mkdir -p ~/.ssh
+          touch ~/.ssh/known_hosts
+          ssh-keyscan ${{ secrets.NFS_HOST_NAME }} >> ~/.ssh/known_hosts
+      - name: Add ssh key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.NFS_NORTH }}
+          known_hosts: unnecessary
+      - name: Send files to staging server
+        run: rsync -avzr --files-from=deployed_files.txt . ${{ secrets.NFS_USER }}@${{ secrets.NFS_HOST_NAME }}:/home/public/food-map/
