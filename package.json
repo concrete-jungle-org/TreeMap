@@ -4,7 +4,7 @@
   "description": "FoodParent is a map platform for Concrete Jungle to track conditions of fruit trees over years. At the same time, FoodParent is a responsive web application that people can use to add new trees on the map, virtually adopt trees, and update conditions of the fruits of trees using smart devices.",
   "scripts": {
     "dev": "webpack -d --watch --config webpack.dev.config.js",
-    "build": "webpack -p --config webpack.production.config.js",
+    "build": "webpack -p --config webpack.dev.config.js",
     "deploy": "./deploy.sh",
     "setup:dev": "cp -f env/local/index.html . && cp -f env/local/server.json setting/",
     "setup:prod": "cp -f env/production/index.html . && cp -f env/production/server.json setting/",
