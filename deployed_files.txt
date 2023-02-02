@@ -4,5 +4,6 @@ vendor/
 favicons/
 static/
 index.html
+.htaccess
 composer.json
 composer.lock
