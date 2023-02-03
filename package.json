@@ -55,7 +55,7 @@
     "classnames": "2.2.5",
     "connect-history-api-fallback": "1.2.0",
     "es6-enum": "1.0.3",
-    "font-awesome": "./patched_modules/font-awesome/",
+    "font-awesome": "git+https://github.com/natomato/Font-Awesome.git",
     "intro.js": "2.7.0",
     "intro.js-react": "0.1.5",
     "jquery": "3.1.0",
