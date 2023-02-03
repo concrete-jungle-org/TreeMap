@@ -12,16 +12,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 6
-      - name: Copy patched_modules to node_modules
-        run: |
-          mkdir node_modules
-          cp -r patched_modules/* ./node_modules
       - name: Install js dependencies
         run: npm install
-      - name: Check value of font-awesome matches patched values
-        run: |
-          head -n 4 patched_modules/font-awesome/scss/_variables.scss
-          head -n 4 node_modules/font-awesome/scss/_variables.scss
       - name: Build client bundle /dist
         run: npm run build
       - name: Install php dependencies /vendor
