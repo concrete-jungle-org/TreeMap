@@ -110,7 +110,7 @@
           if (in_array($uparent, $parents)) {
             // $text .= "Please update " . $item['name'] . " #" . $item['id'] .= " - " . $treesurl . $item['id'] . "\n";
 
-            $html .= "<div style='font-family:sans-serif;margin-bottom:8px;'>Please update " . $item['name'] . " #" . $item['id'] .= " - <a href='" . $treesurl . $item['id'] . "'>Post a new note for " . $item['name'] . " #" . $item['id'] . "</a></div><img style='max-width: 100%; height:auto;' src='" . $baseurl . "content/maps/" . $item['id'] . "_map.jpg'><br/><hr />";
+            $html .= "<div style='font-family:sans-serif;margin-bottom:8px;'>Please update " . $item['name'] . " #" . $item['id'] .= " - <a href='" . $treesurl . $item['id'] . "'>Post a new note for " . $item['name'] . " #" . $item['id'] . "</a></div><img style='max-width: 100%; height:auto;' src='" . $baseurl . "screenshots/maps/" . $item['id'] . "_map.jpg'><br/><hr />";
           }
         }
 

@@ -41,7 +41,7 @@ page.open(Settings.ssltype + Settings.host + Settings.uBase + Settings.uServer +
           } else {
             window.setTimeout(function () {
               console.log("Rendering " + id + "_map.jpg (" + index + " out of " + total + ")");
-              page.render("../content/maps/" + id + "_map.jpg");
+              page.render("../screenshots/maps/" + id + "_map.jpg");
               page.stop();
             }, Math.floor(renderTime * 0.75));
           }
