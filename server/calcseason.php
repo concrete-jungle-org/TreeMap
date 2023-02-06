@@ -42,7 +42,13 @@
         foreach ($result1 as $tree) {
           // NOTE: This loops over 4000 trees, executing a separate query for each one!
           // echo nl2br("- calculating for " . $tree["id"] ."\n");
-          $sql = "SELECT `rate` FROM `note` WHERE `type` = 2 AND (`tree` = " . $tree["id"] . ") AND ( (`date` BETWEEN '" . $startthisyear->format('Y-m-d') . "' AND '" . $endthisyear->format('Y-m-d') . "') OR (`date` BETWEEN '" . $startlastyear->format('Y-m-d') . "' AND '" . $endlastyear->format('Y-m-d') . "')  OR (`date` BETWEEN '" . $start2lastyear->format('Y-m-d') . "' AND '" . $end2lastyear->format('Y-m-d') . "') )ORDER BY `date` DESC LIMIT 1";
+          $sql = "SELECT `rate` FROM `note`
+                  WHERE `type` = 2 AND (`tree` = " . $tree["id"] . ")
+                  AND (
+                    (`date` BETWEEN '" . $startthisyear->format('Y-m-d') . "' AND '" . $endthisyear->format('Y-m-d') . "')
+                    OR (`date` BETWEEN '" . $startlastyear->format('Y-m-d') . "' AND '" . $endlastyear->format('Y-m-d') . "')
+                    OR (`date` BETWEEN '" . $start2lastyear->format('Y-m-d') . "' AND '" . $end2lastyear->format('Y-m-d') . "')
+                  ) ORDER BY `date` DESC LIMIT 1";
           try {
             $stmt = $pdo->prepare($sql);
             $stmt->execute();
@@ -71,7 +77,13 @@
     // $sql = "SELECT DISTINCT tree.food from note join tree on note.tree = tree.id WHERE note.rate > 3 and datediff(note.date,CURRENT_DATE) < 30";
     // $sql = "SELECT DISTINCT tree.food from note join tree on note.tree = tree.id WHERE note.type = 2 AND note.rate > 3 AND ABS(MOD(datediff(note.date,CURRENT_DATE),365)) < 20";
 
-    $sql = "SELECT tree.food FROM donate INNER JOIN tree on FIND_IN_SET(tree.id, donate.tree) INNER JOIN food on tree.food = food.id WHERE ABS(MOD(datediff(CURRENT_DATE, donate.date), 365)) >= 351 GROUP BY tree.id ORDER BY ABS(MOD(datediff(CURRENT_DATE, donate.date), 365)) DESC";
+    $sql = "SELECT tree.food
+            FROM donate
+            INNER JOIN tree on FIND_IN_SET(tree.id, donate.tree)
+            INNER JOIN food on tree.food = food.id
+            WHERE ABS(MOD(datediff(CURRENT_DATE, donate.date), 365)) >= 351
+            GROUP BY tree.id
+            ORDER BY ABS(MOD(datediff(CURRENT_DATE, donate.date), 365)) DESC";
     try {
       $pdo = getConnection();
       $stmt = $pdo->prepare($sql);
