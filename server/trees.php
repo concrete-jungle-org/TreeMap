@@ -104,8 +104,6 @@
       $sql .= "AND `id` != -1 ";
     }
 
-
-
     try {
       $pdo = getConnection();
       $stmt = $pdo->prepare($sql);

@@ -42,9 +42,10 @@ export class TreeModel {
       this.updated = moment(new Date());
     }
     if (props.parent) {
-      this.parents = props.parent.split(',').map((parent) => {
-        return parseInt(parent);
-      });
+      // When moving from mysql to Airtable, there is no longer a Person table
+      // none of the Parent routes or code is working but it remains here until
+      // a decision is made to update or remove it
+      this.parents = 0
     } else {
       this.parents = [];
     }

@@ -2,7 +2,6 @@ let alt = require('../alt');
 
 import ImagePreloader from './../utils/image-preloader-promise';
 let ServerSetting = require('./../../setting/server.json');
-import { updateSeason } from './../utils/season';
 import { getLocalization, setLocalization } from './../utils/localization';
 import { displaySuccessMessage, displayFailMessage } from './../message/popup.component';
 import { resetFilter } from './../utils/filter';
@@ -24,7 +23,6 @@ class InitActions {
       dispatch();
       this.setCode(90);
       resetFilter();
-      updateSeason();
       getLocalization(window.navigator.userLanguage || window.navigator.language).then(function(response) {
         setLocalization(response);
       });

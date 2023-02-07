@@ -222,16 +222,8 @@
     }
   }
 
-  function calcSeasonFoods() {
-    $check = admin_check();
-    $sql = "SELECT id FROM `food` WHERE `season` = 1";
-    if (!$check) {
-      $sql = "SELECT id FROM `food` WHERE `season` = 1 AND `farm` = 0";
-    }
-    $is_legacy = false;
-    if ($_ENV['DB_SCHEMA_VERSION'] == 'mysql') {
-      $is_legacy = true;
-    }
+  function get_foods_in_season($current_week) {
+    $sql = "SELECT DISTINCT food_id FROM in_season WHERE week_of_year = " . $current_week;
     try {
       $pdo = getConnection();
       $stmt = $pdo->prepare($sql);
@@ -239,20 +231,22 @@
       $result = $stmt->fetchAll();
       $pdo = null;
       $foods = []; // ids for foods that are in season
-      if ($is_legacy) {
-        $foods = [-1]; //Note no food exists with id -1, the purpose of this constant is unclear
-      }
       foreach ($result as $food) {
-        array_push($foods, $food['id']);
+        array_push($foods, $food['food_id']);
       }
-      if ($is_legacy) {
-        return implode(',', $foods);
-      } else {
-       return $foods;
-      }
+      return $foods;
     } catch(PDOException $e) {
       return '{"error":{"text":'. $e->getMessage() .'}}';
     }
+  }
+
+  function nextWeek() {
+    return date('W', strtotime('+1 week'));
+  }
+
+  function calcSeasonFoods() {
+    $current_week_of_year = date("W");
+    return get_foods_in_season($current_week_of_year);
   }
 
   function getDefaultFlags() {

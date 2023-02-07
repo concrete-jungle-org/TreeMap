@@ -8,7 +8,7 @@
     public $id; // alter table stmt changed airtable_id to id, and id to old_id
     public $id_number;
     public $name;
-    public $season;
+    public $season; // legacy field, replaced with a lookup on in_season table
     public $adopt;
     public $farm;
     public $airtable_createdTime;
