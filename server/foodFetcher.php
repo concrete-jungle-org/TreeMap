@@ -3,6 +3,7 @@
   header("Cache-Control: post-check=0, pre-check=0", false);
   header("Pragma: no-cache");
 
+  #[AllowDynamicProperties] // suppresses a deprecation warning in PHPv8.2 caused by adding a prop in __set method
   class Food {
     public $id; // alter table stmt changed airtable_id to id, and id to old_id
     public $id_number;
@@ -23,6 +24,10 @@
         $this->id_number = $value;
       }
       if ($name == 'icon') {
+        if (!$value) {
+          $this->icon = '';
+          return;
+        }
         $iconArray = json_decode($value);
         if ($iconArray) {
           $iconFile = $iconArray[0]->filename;
