@@ -1,6 +1,11 @@
 <?php
   include_once 'database.php';
 
+  function print_error($text) {
+    /* file_put_contents('php://stderr', $text . PHP_EOL); */
+    error_log($text);
+  }
+
   function sec_session_start() {
     $session_name = 'sec_session_id';   // Set a custom session name
     $secure = true;

@@ -12,6 +12,14 @@
     return "sqlite:$full_path";
   }
 
+  function getSqliteFoodmapDSN() {
+    $root = $_ENV['PATH_TO_REPO'];
+    $rel_path = $_ENV['PATH_TO_DB'];
+    $file_name = $_ENV['FOOD_MAP_DB'];
+    $full_path = "$root$rel_path$file_name";
+    return "sqlite:$full_path";
+  }
+
   function getMysqlDSN() {
     $host = $_ENV['DB_HOST'];
     $port = $_ENV['DB_PORT'];
@@ -19,17 +27,24 @@
     return "mysql:host=$host;port=$port;dbname=$dbname";
   }
 
-	function getConnection() {
+  function getFoodMapConnection() {
+    $dsn = getSqliteFoodmapDSN();
+    $dbh = new PDO($dsn);
+    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    return $dbh;
+  }
+
+  function getConnection() {
     if ($_ENV['DB_TYPE'] == 'sqlite') {
       $dsn = getSqliteDSN();
       $dbh = new PDO($dsn);
-  		$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-  		return $dbh;
+      $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      return $dbh;
     } else {
       $dsn = getMysqlDSN();
       $dbh = new PDO($dsn, $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD']);
-  		$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-  		return $dbh;
+      $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      return $dbh;
     }
-	}
+  }
 ?>
