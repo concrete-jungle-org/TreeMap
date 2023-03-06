@@ -19,7 +19,7 @@ easily available for development.
 - `db_download.sh`: A script that downloads the database from cj-airtable into /food-map/db, where the server expects to find it
 - `dbpass.php`: Not included, this file has the pw required to connect to mysql db. Stored on nfshost server only. Used if reverting the app to old production-like state
 - `database.php.mysql`: contains the db connection code used if reverting the app to old production-like state
-- `foodmap.sqlite`: a database for preserving the cursor position of the airtable webhooks
+- `foodparent.sqlite`: a database for preserving state outside of airtable needed by the server. For example the cursor position of the airtable webhooks.
 
 ## Dev Tips
 

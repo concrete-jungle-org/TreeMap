@@ -148,8 +148,8 @@ Note: MapBox API key is also exposed
 
 From the original Readme.md
   - Upload files in a server
-  *Don't try to upload all files in {app-root-directory}. It have a lot of dependency libraries which don't need to run the application.
-  *Below are the list of directories and files require to run the applicaiton.
+  **Don't** try to upload all files in {app-root-directory}. It have a lot of dependency libraries which don't need to run the application.
+  Below are the list of directories and files require to run the applicaiton.
   * content/
   * dist/
   * favicons/
@@ -157,3 +157,39 @@ From the original Readme.md
   * static/
   * index.html
   * .htaccess
+  
+## Notes for manual setup
+
+To create a webhook that listens to changes on the `tree` table
+```sh
+curl -X POST "https://api.airtable.com/v0/bases/${AIRTABLE_BASE_ID}/webhooks" \
+-H "Authorization: Bearer ${AIRTABLE_PERSONAL_ACCESS_TOKEN}" \
+-H "Content-Type: application/json" \
+--data '{
+    "notificationUrl": "https://'${FOOD_MAP_HOST}'/food-map/server/webhooks.php",
+    "specification": {
+      "options": {
+        "filters": {
+          "fromSources": ["client"],
+          "dataTypes": ["tableData"],
+          "recordChangeScope": "tblZju10jEUD8Kas0"
+        }
+      }
+    }
+  }'
+```
+
+list active webhooks
+```sh
+curl "https://api.airtable.com/v0/bases/${AIRTABLE_BASE_ID}/webhooks" \
+-H "Authorization: Bearer ${AIRTABLE_PERSONAL_ACCESS_TOKEN}"
+```
+
+```
+sqlite3 foodparent.sqlite
+chgrp web ./foodparent.sqlite
+cmod 664 ./foodparent.sqlite
+
+//create tables if not exist
+```
+

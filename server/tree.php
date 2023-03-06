@@ -7,7 +7,7 @@
 
   include_once 'functions.php';
   include_once 'treeRow.php';
-  include_once 'treeDB.php';
+  include_once 'TreeRepository.php';
   sec_session_continue(); // Our custom secure way of starting a PHP session.
 
   switch($_SERVER['REQUEST_METHOD']){
@@ -143,8 +143,8 @@
     }
 
     try {
-      $treeDB = new TreeDatabase();
-      $newTree = $treeDB->create((array) $data);
+      $repo = new TreeRepository();
+      $newTree = $repo->create((array) $data);
       $params = array(
         "code" => 200,
         "tree" => $newTree,

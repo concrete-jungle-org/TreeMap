@@ -1,9 +1,32 @@
 <?php
   include_once 'database.php';
 
-  function print_error($text) {
+  function debug_error($err, $banner = '') {
+    if (!empty($banner)) {
+      error_log("::".$banner."::");
+    }
+    if (is_object($err)) {
+      if (method_exists($err, 'getMessage')) {
+        error_log($err->getMessage());
+      }
+      if (method_exists($err, 'getFile') && method_exists($err, 'getLine')) {
+        error_log('From: '.$err->getFile().' on line: '.$err->getLine());
+      }
+      return;
+    }
+    if (is_array($err)) {
+      error_log(print_r($err, true));
+      return;
+    }
+    if (is_string($err)) {
+      error_log($err);
+      return;
+    }
+    error_log(json_encode($err));
+  }
+  function print_error($err) {
     /* file_put_contents('php://stderr', $text . PHP_EOL); */
-    error_log($text);
+    error_log($err);
   }
 
   function sec_session_start() {

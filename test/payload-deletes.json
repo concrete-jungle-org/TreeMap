@@ -1,0 +1,27 @@
+{
+	"payloads": [{
+		"timestamp": "2023-02-25T00:59:40.348Z",
+		"baseTransactionNumber": 542,
+		"actionMetadata": {
+			"source": "client",
+			"sourceMetadata": {
+				"user": {
+					"id": "usrRCsgAAHcRAOjl1",
+					"email": "xxxxxxxxxx@gmail.com",
+					"permissionLevel": "create",
+					"name": "Nate ReadOnly",
+					"profilePicUrl": "https:\\/\\/static.airtable.com\\/images\\/userIcons\\/user_icon_10.png"
+				}
+			}
+		},
+		"payloadFormat": "v0",
+		"changedTablesById": {
+			"tblZju10jEUD8Kas0": {
+				"destroyedRecordIds": ["rec4SSJM28Up41APP", "recHK91xYqlAuko9R", "recwXlPFS0NIWYgGb", "reciFHvIiOZnraHrA", "rec8DWyBxmMyXndMH"]
+			}
+		}
+	}],
+	"cursor": 45,
+	"mightHaveMore": false,
+	"payloadFormat": "v0"
+}
