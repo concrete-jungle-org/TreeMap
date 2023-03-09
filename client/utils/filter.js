@@ -24,7 +24,7 @@ export function readFilter(resolve, reject) {
     }
   }).catch(function(response) { // Error catch for calcSeason().
     if (__DEV__) {
-      console.error('readFilterPromise error: ', response.statusText);
+      console.error('readFilterPromise error: ', response.statusText || response);
     }
     if (reject)
       reject(response.status);
@@ -35,7 +35,7 @@ export function updateFilter(mode, ids, resolve, reject) {
   switch(mode) {
     case FITERMODE.FOOD:
       mode = 1;
-      if (ids.length === 0) {
+      if (ids.length === 0) { // TODO: remove this if not needed
         ids.unshift('fake');  // Fake id to handle when there is no item in ids.
       };
       break;
@@ -55,6 +55,9 @@ export function updateFilter(mode, ids, resolve, reject) {
       if (ids.length === 0) {
         ids.unshift(-1);  // Fake id to handle when there is no item in ids.
       };
+      break;
+    case FITERMODE.WEEKS:
+      mode = 6;
       break;
   }
   let updateFilterPromise = $.ajax({
@@ -79,7 +82,7 @@ export function updateFilter(mode, ids, resolve, reject) {
     }
   }).catch(function(response) { // Error catch for calcSeason().
     if (__DEV__)
-      console.error('updateFilterPromise error', response.statusText);
+      console.error('updateFilterPromise error', response);
     if (reject)
       reject(response.status);
   });

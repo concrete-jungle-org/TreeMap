@@ -23,11 +23,8 @@ export default class TreeFilter extends React.Component {
     super(props, context);
   }
   componentWillMount() {
-    this.setState({adopts: [], flags: [], foods: [], ownerships: [], rates: []});
+    this.setState({adopts: [], flags: [], foods: [], weeks: [], ownerships: [], rates: []});
     this.updateProps(this.props);
-  }
-  componentDidMount () {
-
   }
   componentWillReceiveProps(nextProps) {
     this.updateProps(nextProps);
@@ -36,22 +33,21 @@ export default class TreeFilter extends React.Component {
     TreeActions.setSelected(null);
     readFilter(function(response) { // Resolve callback.
       let adopts;
+      let weeks = response.weeks;
       if (response.adopt) {
         adopts = response.adopt.split(",").map(function(adopt) {
           return parseInt(adopt);
         });
       }
       let dead = parseInt(response.dead);
-      let foods = response.foods.map(function(food) {
-        return food;
-      });
+      let foods = response.foods;
       let ownerships = response.ownerships.split(",").map(function(ownership) {
         return parseInt(ownership);
       });
       let rates = response.rates.map(function(rate) {
         return parseInt(rate);
       });
-      this.setState({adopts: adopts, dead: dead, foods: foods, ownerships: ownerships, rates: rates});
+      this.setState({adopts, dead, foods, weeks, ownerships, rates});
     }.bind(this), function(response) {  // Reject callback.
 
     }.bind(this));
@@ -60,7 +56,7 @@ export default class TreeFilter extends React.Component {
     if (AuthStore.getState().auth.isManager()) {
       return (
         <div>
-          <TreeFood foods={this.state.foods} />
+          <TreeFood foods={this.state.foods} weeks={this.state.weeks}/>
           <TreeRate rates={this.state.rates} />
           <TreeAdopt adopts={this.state.adopts} />
           <TreeOwnership ownerships={this.state.ownerships} />
@@ -69,7 +65,7 @@ export default class TreeFilter extends React.Component {
     } else {
       return (
         <div>
-          <TreeFood foods={this.state.foods} />
+          <TreeFood foods={this.state.foods} weeks={this.state.weeks}/>
           <TreeRate rates={this.state.rates} />
           <TreeAdopt adopts={this.state.adopts} />
         </div>

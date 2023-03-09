@@ -250,8 +250,12 @@
     }
   }
 
-  function get_foods_in_season($current_week) {
-    $sql = "SELECT DISTINCT food_id FROM in_season WHERE week_of_year = " . $current_week;
+  function get_foods_in_season($weeks = []) {
+    $weekList = implode(', ', $weeks);
+    $sql = <<<SQL
+      SELECT DISTINCT food_id FROM in_season 
+      WHERE week_of_year IN ($weekList);
+    SQL;
     try {
       $pdo = getConnection();
       $stmt = $pdo->prepare($sql);
@@ -271,10 +275,18 @@
   function nextWeek() {
     return date('W', strtotime('+1 week'));
   }
+  function prevWeek() {
+    return date('W', strtotime('-1 week'));
+  }
+  function currentWeek() {
+    return date("W"); //current week of year ie: 1..52, sometimes 53
+  }
 
-  function calcSeasonFoods() {
-    $current_week_of_year = date("W");
-    return get_foods_in_season($current_week_of_year);
+  function calcSeasonFoods($weeks = []) {
+    if (empty($weeks)) {
+      $weeks = [currentWeek()];
+    }
+    return get_foods_in_season($weeks);
   }
 
   function getDefaultFlags() {

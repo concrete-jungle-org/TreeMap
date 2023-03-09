@@ -23,6 +23,21 @@
     return $_SESSION['rates'];
   }
 
+  function weeks_set($weeks = []) {
+    if (empty($weeks)) { //reset weeks filter
+      $_SESSION['weeks'] = [currentWeek(), nextWeek()];
+    } else { //user selected array of weeks
+      $unsanitizedWeeks = json_decode($weeks);
+      $weeks = array_map('intval', $unsanitizedWeeks);
+      $_SESSION['weeks'] = $weeks;
+    }
+    return weeks_get();
+  }
+
+  function weeks_get() {
+    return array_map('intval', $_SESSION['weeks']);
+  }
+
 
   switch($_SERVER['REQUEST_METHOD']){
     case 'POST':
@@ -69,6 +84,14 @@
       }
     } else if ($_POST['mode'] == 5) {
       rate_set($_POST['ids']);
+    } else if ($_POST['mode'] == 6) {
+      if ($_POST['ids'] != "") {  //user selected array of weeks
+        weeks_set($_POST['ids']);
+        $foods = calcSeasonFoods(weeks_get());
+        $_SESSION['food_ids'] = $foods;
+      } else { //reset weeks filter
+        weeks_set();
+      }
     }
 
     if (!isset($_SESSION['public'])) {
@@ -86,6 +109,9 @@
     if (!isset($_SESSION['rates'])) {
       rate_initialize();
     }
+    if (!isset($_SESSION['weeks'])) {
+      weeks_set();
+    }
     $foods = [];
     if ($_ENV['DB_SCHEMA_VERSION'] == 'mysql') {
       //NOTE: this condition is not supported
@@ -95,8 +121,7 @@
       }
     } else {
       if (!isset($_SESSION['food_ids'])) {
-        $foods = calcSeasonFoods();
-        $_SESSION['food_ids'] = $foods;
+        $_SESSION['food_ids'] = calcSeasonFoods(weeks_get());
       }
     }
 
@@ -104,6 +129,7 @@
       "code" => 200,
       "ownerships" => $_SESSION['public'],
       "foods" => $_SESSION['food_ids'],
+      "weeks" => weeks_get(),
       "dead" => $_SESSION['dead'],
       "adopt" => $_SESSION['adopt'],
       "rates" => $_SESSION['rates'],
@@ -141,13 +167,19 @@
     if (isset($_SESSION['food_ids'])) {
       $foods = $_SESSION['food_ids'];
     } else {
-      $foods = calcSeasonFoods();
+      $foods = calcSeasonFoods(weeks_get());
       $_SESSION['food_ids'] = $foods;
+    }
+    if (isset($_SESSION['weeks'])) {
+      $weeks = weeks_get();
+    } else {
+      $weeks = weeks_set();
     }
     $params = array(
       "code" => 200,
       "ownerships" => $public,
       "foods" => $foods,
+      "weeks" => $weeks,
       "dead" => $dead,
       "adopt" => $adopt,
       "rates" => $rates,
@@ -168,7 +200,8 @@
     $_SESSION['public'] = $public;
     $dead = "0";
     $_SESSION['dead'] = $dead;
-    $foods = calcSeasonFoods();
+    $weeks = weeks_set();
+    $foods = calcSeasonFoods($weeks);
     if ($_ENV['DB_SCHEMA_VERSION'] == 'mysql') {
       //NOTE: this condition is not currently supported
       $_SESSION['legacy_food_ids'] = $foods;
@@ -181,9 +214,11 @@
       "code" => 200,
       "ownerships" => $public,
       "foods" => $foods,
+      "weeks" => $weeks,
       "dead" => $dead,
       "adopt" => $adopt,
       "rates" => $rates,
+      "weeks" => $weeks,
     );
     echo json_encode($params);
   }
@@ -206,10 +241,12 @@
     $adopt = "0";
     $_SESSION['adopt'] = $adopt;
     $rates = rate_initialize();
+    $weeks = weeks_get();
     $params = array(
       "code" => 200,
       "ownerships" => $public,
       "foods" => $_SESSION['food_ids'],
+      "weeks" => $weeks,
       "dead" => $dead,
       "adopt" => $adopt,
       "rates" => $rates,
