@@ -45,6 +45,28 @@ This database was created with this python tool after the mysql dump file was tu
 ```
 mysql2sqlite --sqlite-file tree_parent.sqlite --mysql-database tree_parent --mysql-user <your_user> --prompt-mysql-password
 ```
+
+In order to calculate in-season food without performing a full table update on foods, a new In_Season table was created. 
+
+```
+--Temporarily create and populate in_season table
+--until the table can be added to airtable and download script
+CREATE TABLE In_Season (
+  food_id TEXT NOT NULL,
+  day_of_year INTEGER NOT NULL,
+  week_of_year INTEGER NOT NULL,
+  year INTEGER NOT NULL,
+  PRIMARY KEY (food_id, day_of_year, year)
+);
+
+INSERT OR IGNORE INTO in_season 
+SELECT 
+  SUBSTRING(food, 3, 17) as food_id, 
+  CAST(STRFTIME('%j', date) as INTEGER) as day_of_year,
+  CAST(STRFTIME('%W', date) as INTEGER) as week_of_year,
+  CAST(STRFTIME('%Y', date) as INTEGER) as year
+FROM Donate;
+```
  
 ### MySQL (Legacy)
 
