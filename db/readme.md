@@ -15,7 +15,7 @@ easily available for development.
 - `tree_parent.dump`: what the app originally worked with
 - `tree_parent.sqlite`: a conversion of the mysql dump file into an sqlite file (orig schema)
 - `airtable.sqlite`: an export of the data from airtable (new schema)
-- `alter_xxx`: sqlite scripts to be executed against an airtable backup found in the [cj-airtable repo](https://github.com/natomato/cj-airtable).
+- `alter_xxx`: sqlite scripts to be executed against an airtable backup found in the [cj-airtable repo](https://github.com/concrete-jungle-org/cj-airtable).
 - `db_download.sh`: A script that downloads the database from cj-airtable into /food-map/db, where the server expects to find it
 - `dbpass.php`: Not included, this file has the pw required to connect to mysql db. Stored on nfshost server only. Used if reverting the app to old production-like state
 - `database.php.mysql`: contains the db connection code used if reverting the app to old production-like state
