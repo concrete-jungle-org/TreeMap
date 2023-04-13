@@ -1,30 +1,36 @@
 # The Database
 
-In order to transition from the apps original mysql db to an sqlite dump from airtable, I have been working with
-3 databases: the original mysql, a copy of this data converted to sqlite, and a version of airtable converted to sqlite.
+## Background
+The app originally was called FoodParent2.0 and worked with a mysql database, 
+then it was transitioned to a sqlite db that was essentially a dump of the mysql
+data and finally transitioned again to a sqlite db that is almost identical to 
+the airtable database. Some minor chanes included in the alter table statements
+included here. The final sqlite db is basically a cache that gets renewed every 
+24 hrs or so from a backup of airtable.
 
-When developing you may find it easiest to transition the app if you can obtain these three copies and test with them.
-Since the databases are large, unversionable, and contain some sensitive info like email addresses, I am not storing them in github.
-They were saved in the demo server at NearlyFreeSpeech.net with: `rsync -azP ./db/ ${CJ_PROD_USER}@${CJ_PROD_HOST}:/home/public/db`
+The app was renamed from FoodParent or FoodMap to TreeMap, though some old
+references may still exist.
 
-You can ssh into the server and copy the files needed back into this directory, where they will be ignored by git but still
-easily available for development.
+Whenever setting up the app to run in a new environment, the database files it 
+depends on also need to be present. For the staging and production environments 
+the db file already exists, for your local development you will need to copy 
+these files. 
+
+You can ssh into the server and copy the sqlite files needed back into this 
+directory, where they will be ignored by git if the file ends with `.sqlite`.
 
 ## Directory Contents:
 
-- `tree_parent.dump`: what the app originally worked with
-- `tree_parent.sqlite`: a conversion of the mysql dump file into an sqlite file (orig schema)
-- `airtable.sqlite`: an export of the data from airtable (new schema)
+- `airtable.sqlite`: an export of the data from airtable
 - `alter_xxx`: sqlite scripts to be executed against an airtable backup found in the [cj-airtable repo](https://github.com/concrete-jungle-org/cj-airtable).
-- `db_download.sh`: A script that downloads the database from cj-airtable into /food-map/db, where the server expects to find it
-- `dbpass.php`: Not included, this file has the pw required to connect to mysql db. Stored on nfshost server only. Used if reverting the app to old production-like state
-- `database.php.mysql`: contains the db connection code used if reverting the app to old production-like state
-- `foodparent.sqlite`: a database for preserving state outside of airtable needed by the server. For example the cursor position of the airtable webhooks.
+- `db_download.sh`: A script that downloads the database from cj-airtable where the server expects to find it
+- `foodparent.sqlite`: a database for app specific data not related to airtable data, For example the cursor position of the airtable webhooks.
 
 ## Dev Tips
 
 To get started: 
-- Install sqlite3 and verified I could access the sqlite database and read table table information ie: `pragma table_info(food)`
+- Copy over the 2 db sqlite files needed to from staging to your local dev env.
+- Install sqlite3 and verify access to sqlite database: `pragma table_info(food)`
 
 
 ### Airtable
@@ -74,6 +80,9 @@ When you want to work with the app as it was in production follow the [Dev_Setup
 The original app required a dbpass.php and a database.php file. The database file is here with a `.mysql` extension.
 The .mysql extension was added to avoid confusion with other forms of this file elsewhere in this repo, but gets
 removed when using. The [dbpass](dbpass.php) contains sensitive info and therefore is stored on the server not the repo.
+
+`dbpass.php`: Not included, this file has the pw required to connect to mysql db. Stored on nfshost server only. Used if reverting the app to old production-like state
+`database.php.mysql`: Not included, contains the db connection code used if reverting the app to old production-like state. Available in git history prior to April 13th, 2023
 
 Install Mysql locally:
 - How I setup local devlopment with a full mysql db to get this working
