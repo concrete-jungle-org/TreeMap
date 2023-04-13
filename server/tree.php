@@ -87,7 +87,7 @@
         "lng" => $data->{'lng'},
         "food" => $data->{'food'},
         "description" => $data->{'description'},
-        "address" => $data->{'address'},
+        "full address" => $data->{'address'},
         "public" => $data->{'public'},
         "dead" => $data->{'dead'},
         "owner" => $data->{'owner'},

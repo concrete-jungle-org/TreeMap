@@ -16,11 +16,11 @@ let TreeStore = require('./../stores/tree.store');
 let TreeActions = require('./../actions/tree.actions');
 import { isLatLng } from './../utils/validation';
 
-
 export default class TreeAddress extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.updateAttribute = this.updateAttribute.bind(this);
+    this.onRevGeoFail = this.onRevGeoFail.bind(this);
   }
   componentWillMount() {
     this.setState({latitude: MapSetting.vPosition.x, longitude: MapSetting.vPosition.y, address: ""});
@@ -30,6 +30,9 @@ export default class TreeAddress extends React.Component {
   }
   componentWillReceiveProps(nextProps) {
     this.updateProps(nextProps);
+  }
+  onRevGeoFail() {
+    this.setState({address: ""})
   }
   updateProps(props) {
     if (props.tree != null) {
@@ -42,7 +45,7 @@ export default class TreeAddress extends React.Component {
           reverseGeocoding(props.tree.getLocation(), function(response) {
             props.tree.address = response.formatted;
             this.setState({latitude: latitude, longitude: longitude, address: props.tree.address});
-          }.bind(this));
+          }.bind(this), this.onRevGeoFail);
         }
       }
     }
@@ -56,7 +59,7 @@ export default class TreeAddress extends React.Component {
       reverseGeocoding(this.props.tree.getLocation(), function(response) {
         this.props.tree.address = response.formatted;
         this.setState({address: this.props.tree.address});
-      }.bind(this));
+      }.bind(this), this.onRevGeoFail);
     }
     if (prevAddress != this.state.address) {
       TreeActions.setCode(94);  // Unsaved change code (see errorlist.xlsx for more detail).
