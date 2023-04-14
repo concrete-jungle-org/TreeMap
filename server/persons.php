@@ -4,6 +4,7 @@
   header("Pragma: no-cache");
 
   include_once 'functions.php';
+  include_once 'FoodParentDatabase.php';
 
   switch($_SERVER['REQUEST_METHOD']){
     case 'POST':
@@ -59,9 +60,10 @@
       }
       $sql = "SELECT `id`, `auth`, `name`, `contact`, `neighborhood`, `updated` FROM `person` WHERE (`id` IN (" . $params["ids"] . ") AND `active` = 1) ORDER BY `name` ASC ";
       try {
-        $pdo = getConnection();
+        $db = new FoodParentDatabase();
+        $pdo = $db->getConnection();
         $stmt = $pdo->prepare($sql);
-        $stmt->execute($params);
+        $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_OBJ);
         $pdo = null;
         $params = array(
