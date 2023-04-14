@@ -1,5 +1,6 @@
 <?php
   include_once 'database.php';
+  include_once 'FoodParentDatabase.php';
 
   function debug_error($err, $banner = '') {
     if (!empty($banner)) {
@@ -61,14 +62,14 @@
   }
 
   function login($contact, $password) {
-    $pdo = getConnection();
     $sql = "SELECT `id`, `auth`, `contact`, `password`, `salt` FROM `person` WHERE (`contact` = :contact)";
     $params = array(
       "contact" => $contact,
     );
 
     try {
-      $pdo = getConnection();
+      $db = new FoodParentDatabase(); 
+      $pdo = $db->getConnection();
       $stmt = $pdo->prepare($sql);
       if ($stmt) {
         $stmt->execute($params);
@@ -80,28 +81,24 @@
         $salt = $result["salt"];
         // hash the password with the unique salt.
         $password = hash('sha512', $password . $salt);
-        if ($stmt->rowCount() == 1) {
-          // Check if the password in the database matches the password the user submitted.
-          if ($db_password == $password) {
-            // Password is correct!
-            // Get the user-agent string of the user.
-            //$user_browser = $_SERVER['HTTP_USER_AGENT'];
-            $user_browser = "HTTP_USER_AGENT";
-            // XSS protection as we might print this value
-            $id = preg_replace("/[^0-9]+/", "", $id);
-            $_SESSION['user_id'] = $id;
-            $_SESSION['user_auth'] = $auth;
-            // XSS protection as we might print this value
-            $contact = preg_replace("/[^a-zA-Z0-9_\-]+.@/", "", $contact);
-            $_SESSION['contact'] = $contact;
-            $_SESSION['login_string'] = hash('sha512', $password . $user_browser);
-            // Login successful.
-            return true;
-          } else {
-            // Password is not correct
-            return false;
-          }
+        // Check if the password in the database matches the password the user submitted.
+        if ($db_password == $password) {
+          // Password is correct!
+          // Get the user-agent string of the user.
+          //$user_browser = $_SERVER['HTTP_USER_AGENT'];
+          $user_browser = "HTTP_USER_AGENT";
+          // XSS protection as we might print this value
+          $id = preg_replace("/[^0-9]+/", "", $id);
+          $_SESSION['user_id'] = $id;
+          $_SESSION['user_auth'] = $auth;
+          // XSS protection as we might print this value
+          $contact = preg_replace("/[^a-zA-Z0-9_\-]+.@/", "", $contact);
+          $_SESSION['contact'] = $contact;
+          $_SESSION['login_string'] = hash('sha512', $password . $user_browser);
+          // Login successful.
+          return true;
         } else {
+          // Password is not correct
           return false;
         }
       }
@@ -120,14 +117,14 @@
       //$user_browser = $_SERVER['HTTP_USER_AGENT'];
       $user_browser = "HTTP_USER_AGENT";
 
-      $pdo = getConnection();
       $sql = "SELECT `password` FROM `person` WHERE (`id` = :id)";
       $params = array(
         "id" => $user_id,
       );
 
       try {
-        $pdo = getConnection();
+        $db = new FoodParentDatabase(); 
+        $pdo = $db->getConnection();
         $stmt = $pdo->prepare($sql);
         if ($stmt) {
           $stmt->execute($params);
@@ -173,14 +170,14 @@
       //$user_browser = $_SERVER['HTTP_USER_AGENT'];
       $user_browser = "HTTP_USER_AGENT";
 
-      $pdo = getConnection();
       $sql = "SELECT `password` FROM `person` WHERE (`id` = :id)";
       $params = array(
           "id" => $user_id,
       );
 
       try {
-        $pdo = getConnection();
+        $db = new FoodParentDatabase(); 
+        $pdo = $db->getConnection();
         $stmt = $pdo->prepare($sql);
         if ($stmt) {
           $stmt->execute($params);

@@ -18,7 +18,8 @@ class FoodParentDatabase {
     return "sqlite:$full_path";
   }
 
-  private function getConnection() {
+  //TODO change to private and refactor persons and functions
+  public function getConnection() {
     $dsn = $this->getDSN();
     $dbh = new PDO($dsn);
     $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

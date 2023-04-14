@@ -4,6 +4,7 @@
   header("Pragma: no-cache");
 
   include_once 'functions.php';
+  include_once 'FoodParentDatabase.php';
   sec_session_continue(); // Our custom secure way of starting a PHP session.
 
   switch($_SERVER['REQUEST_METHOD']){
@@ -24,6 +25,7 @@
   function read() {
     $userid = null;
     $userauth = null;
+    $db = new FoodParentDatabase();
     if (isset($_SESSION['user_id'])) {
       $userid = intval($_SESSION['user_id']);
     }
@@ -41,7 +43,6 @@
         "id" => $_GET['id'],
       );
     }
-
     if (($userauth != 1 && $userauth != 2) && $userid != intval($params['id'])) {
       $json = array(
         "code" => 901,
@@ -51,7 +52,7 @@
     } else {
       $sql = "SELECT `id`, `auth`, `name`, `contact`, `neighborhood`, `updated` FROM `person` WHERE (`id` = :id) AND `active` = 1";
       try {
-        $pdo = getConnection();
+        $pdo = $db->getConnection();
         $stmt = $pdo->prepare($sql);
         $stmt->execute($params);
         $result = $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -84,7 +85,6 @@
     $params = array(
       "id" => $data->{'id'},
     );
-
     if (($userauth != 1 && $userauth != 2) && $userid != intval($params['id'])) {
       $json = array(
         "code" => 901,
@@ -103,11 +103,11 @@
           "updated" => date("Y-m-d H:i:s"),
         );
         $sql = "UPDATE `person` SET `auth` = :auth, `name` = :name, `contact` = :contact, `neighborhood` = :neighborhood, `active` = :active, `updated` = :updated WHERE (`id` = :id)";
+        $db = new FoodParentDatabase();
         try {
-          $pdo = getConnection();
+          $pdo = $db->getConnection();
           $stmt = $pdo->prepare($sql);
           $stmt->execute($params);
-
           $sql = "SELECT `id`, `auth`, `name`, `contact`, `neighborhood`, `updated` FROM `person` WHERE (`id` = :id)";
           $params = array(
             "id" => $data->{'id'},
@@ -144,20 +144,19 @@
         $params = array(
           "id" => $data->{'id'},
           "auth" => $data->{'auth'},
-          "name" => filter_var($data->{'name'}, FILTER_SANITIZE_STRING),
-          "contact" => filter_var($data->{'contact'}, FILTER_SANITIZE_STRING),
+          "name" => filter_var($data->{'name'}, FILTER_UNSAFE_RAW),
+          "contact" => filter_var($data->{'contact'}, FILTER_UNSAFE_RAW),
           "password" => $password,
           "salt" => $salt,
-          "neighborhood" => filter_var($data->{'neighborhood'}, FILTER_SANITIZE_STRING),
+          "neighborhood" => filter_var($data->{'neighborhood'}, FILTER_UNSAFE_RAW),
           "active" => 1,
           "updated" => date("Y-m-d"),
         );
         $sql = "UPDATE `person` SET `auth` = :auth, `name` = :name, `contact` = :contact, `password` = :password, `salt` = :salt, `neighborhood` = :neighborhood, `active` = :active, `updated` = :updated WHERE (`id` = :id)";
         try {
-          $pdo = getConnection();
+          $pdo = $db->getConnection();
           $stmt = $pdo->prepare($sql);
           $stmt->execute($params);
-
           $sql = "SELECT `id`, `auth`, `name`, `contact`, `neighborhood`, `updated` FROM `person` WHERE (`id` = :id)";
           $params = array(
             "id" => $data->{'id'},
@@ -194,11 +193,12 @@
     $data = json_decode(file_get_contents('php://input'));
     // Check account already exists in db.
     $params = array(
-      "contact" => filter_var($data->{'contact'}, FILTER_SANITIZE_STRING),
+      "contact" => filter_var($data->{'contact'}, FILTER_UNSAFE_RAW),
     );
     $sql = "SELECT `id`, `active` FROM `person` WHERE (`contact` = :contact)";
     try {
-      $pdo = getConnection();
+      $db = new FoodParentDatabase();
+      $pdo = $db->getConnection();
       $stmt = $pdo->prepare($sql);
       $stmt->execute($params);
       $result = $stmt->fetch();
@@ -219,18 +219,18 @@
           $params = array(
             "id" => $id,
             "auth" => 3,
-            "name" => filter_var($data->{'name'}, FILTER_SANITIZE_STRING),
-            "contact" => filter_var($data->{'contact'}, FILTER_SANITIZE_STRING),
+            "name" => filter_var($data->{'name'}, FILTER_UNSAFE_RAW),
+            "contact" => filter_var($data->{'contact'}, FILTER_UNSAFE_RAW),
             "password" => $password,
             "salt" => $salt,
-            "neighborhood" => filter_var($data->{'neighborhood'}, FILTER_SANITIZE_STRING),
+            "neighborhood" => filter_var($data->{'neighborhood'}, FILTER_UNSAFE_RAW),
             "active" => 1,
             "updated" => date("Y-m-d"),
           );
 
           $sql = "UPDATE `person` SET `auth` = :auth, `name` = :name, `contact` = :contact, `password` = :password, `salt` = :salt, `neighborhood` = :neighborhood, `active` = :active, `updated` = :updated WHERE (`id` = :id)";
           try {
-            $pdo = getConnection();
+            $pdo = $db->getConnection();
             $stmt = $pdo->prepare($sql);
             $stmt->execute($params);
 
@@ -243,7 +243,7 @@
               $stmt->execute($params);
               $result = $stmt->fetch();
               $pdo = null;
-              login(filter_var($data->{'contact'}, FILTER_SANITIZE_STRING), filter_var($data->{'contact'}, FILTER_SANITIZE_STRING));  // Login automatically.
+              login(filter_var($data->{'contact'}, FILTER_UNSAFE_RAW), filter_var($data->{'contact'}, FILTER_UNSAFE_RAW));  // Login automatically.
               $params = array(
                 "code" => 200,
                 "person" => $result,
@@ -271,11 +271,11 @@
         $password = hash('sha512', $params["contact"] . $salt);
         $params = array(
           "auth" => 3,
-          "name" => filter_var($data->{'name'}, FILTER_SANITIZE_STRING),
-          "contact" => filter_var($data->{'contact'}, FILTER_SANITIZE_STRING),
+          "name" => filter_var($data->{'name'}, ),
+          "contact" => filter_var($data->{'contact'}, FILTER_UNSAFE_RAW),
           "password" => $password,
           "salt" => $salt,
-          "neighborhood" => filter_var($data->{'neighborhood'}, FILTER_SANITIZE_STRING),
+          "neighborhood" => filter_var($data->{'neighborhood'}, FILTER_UNSAFE_RAW),
           "active" => 1,
           "updated" => date("Y-m-d"),
         );
@@ -334,7 +334,8 @@
     if ($check) {
       $sql = "DELETE FROM `person` WHERE (`id` = :id)";
       try {
-        $pdo = getConnection();
+        $db = new FoodParentDatabase();
+        $pdo = $db->getConnection();
         $stmt = $pdo->prepare($sql);
         $result = $stmt->execute($params);
         $pdo = null;
