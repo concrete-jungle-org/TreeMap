@@ -23,9 +23,13 @@
     return $_SESSION['rates'];
   }
 
+  function weeks_initialize() {
+    $_SESSION['weeks'] = [currentWeek(), nextWeek()];
+  }
+
   function weeks_set($weeks = []) {
     if (empty($weeks)) { //reset weeks filter
-      $_SESSION['weeks'] = [currentWeek(), nextWeek()];
+      weeks_initialize();
     } else { //user selected array of weeks
       $unsanitizedWeeks = json_decode($weeks);
       $weeks = array_map('intval', $unsanitizedWeeks);
@@ -35,6 +39,9 @@
   }
 
   function weeks_get() {
+    if(!isset($_SESSION['weeks'])) {
+      weeks_initialize();
+    }
     return array_map('intval', $_SESSION['weeks']);
   }
 
