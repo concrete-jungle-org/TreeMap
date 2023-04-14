@@ -2,10 +2,10 @@
 <browserconfig>
   <msapplication>
     <tile>
-      <square70x70logo src="/FoodParent2.0/favicons/mstile-70x70.png"/>
-      <square150x150logo src="/FoodParent2.0/favicons/mstile-150x150.png"/>
-      <square310x310logo src="/FoodParent2.0/favicons/mstile-310x310.png"/>
-      <wide310x150logo src="/FoodParent2.0/favicons/mstile-310x150.png"/>
+      <square70x70logo src="/TreeMap/favicons/mstile-70x70.png"/>
+      <square150x150logo src="/TreeMap/favicons/mstile-150x150.png"/>
+      <square310x310logo src="/TreeMap/favicons/mstile-310x310.png"/>
+      <wide310x150logo src="/TreeMap/favicons/mstile-310x150.png"/>
       <TileColor>#5e4e51</TileColor>
     </tile>
   </msapplication>
