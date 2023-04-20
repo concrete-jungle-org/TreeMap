@@ -18,7 +18,7 @@ import { MESSAGETYPE } from './../utils/enum';
 
 class InitActions {
   initialize(id = 0) {
-    this.setMessage(MESSAGETYPE.SUCCESS, "Loading FoodParent...");
+    this.setMessage(MESSAGETYPE.SUCCESS, "Loading TreeMap...");
     return (dispatch) => {
       dispatch();
       this.setCode(90);

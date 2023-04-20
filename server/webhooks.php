@@ -3,7 +3,7 @@
   $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
   $dotenv->load();
 
-  include_once 'FoodParentDatabase.php';
+  include_once 'TreeMapDatabase.php';
   include_once 'AirtableAPI.php';
   include_once 'WebhookService.php';
   /* include_once 'MockAirtableAPI.php'; */
@@ -19,7 +19,7 @@
     $data = json_decode($json);
     // NOTE: ideally we would return here and then
     // fetch and execute the payload asynchronously
-    $persistence = new FoodParentDatabase();
+    $persistence = new TreeMapDatabase();
     $api = new AirtableAPI();
     $service = new WebhookService($data, $persistence, $api);
     $service->executePayload();

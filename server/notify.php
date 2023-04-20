@@ -125,16 +125,16 @@
           if ($test) {
             $mg->sendMessage($config->domain, array('from'    => $config->from,
                                                     'to'      => $result3[0]['contact'],
-                                                    'subject' => "[TEST] FoodParent " . date("F j, Y") . " Update Request",
-                                                    // 'text'    => "FoodParent " . date("F j, Y") . " Update Request\n\n" . $text,
-                                                    'html'    => "<html><head></head><body><h3 style='font-family:sans-serif;margin-bottom:16px;'>[TEST] FoodParent " . date("F j, Y") . " Update Request</h3>" . $html . "</body></html>",
+                                                    'subject' => "[TEST] TreeMap " . date("F j, Y") . " Update Request",
+                                                    // 'text'    => "TreeMap " . date("F j, Y") . " Update Request\n\n" . $text,
+                                                    'html'    => "<html><head></head><body><h3 style='font-family:sans-serif;margin-bottom:16px;'>[TEST] TreeMap " . date("F j, Y") . " Update Request</h3>" . $html . "</body></html>",
                                                   ));
           } else {
             $mg->sendMessage($config->domain, array('from'    => $config->from,
                                                     'to'      => $result3[0]['contact'],
-                                                    'subject' => "FoodParent " . date("F j, Y") . " Update Request",
-                                                    // 'text'    => "FoodParent " . date("F j, Y") . " Update Request\n\n" . $text,
-                                                    'html'    => "<html><head></head><body><h3 style='font-family:sans-serif;margin-bottom:16px;'>FoodParent " . date("F j, Y") . " Update Request</h3>" . $html . "</body></html>",
+                                                    'subject' => "TreeMap " . date("F j, Y") . " Update Request",
+                                                    // 'text'    => "TreeMap " . date("F j, Y") . " Update Request\n\n" . $text,
+                                                    'html'    => "<html><head></head><body><h3 style='font-family:sans-serif;margin-bottom:16px;'>TreeMap " . date("F j, Y") . " Update Request</h3>" . $html . "</body></html>",
                                                   ));
           }
 

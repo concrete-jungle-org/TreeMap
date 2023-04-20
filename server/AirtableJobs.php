@@ -4,7 +4,7 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->required(['AT_TABLE_TREE'])->notEmpty();
 $dotenv->load();
 
-include_once 'FoodParentDatabase.php';
+include_once 'TreeMapDatabase.php';
 include_once 'TreeRepository.php';
 
 // Jobs can be for any table type
@@ -29,7 +29,7 @@ abstract class AirtableJob {
     $this->timestamp = $timestamp;
     $this->status = 'pending';
     $this->repository = $this->getRepository($tableId);
-    $this->db = new FoodParentDatabase();
+    $this->db = new TreeMapDatabase();
   }
   abstract public function execute();
   abstract public function getDescription();

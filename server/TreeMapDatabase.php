@@ -2,18 +2,18 @@
 
 require '../vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->required(['PATH_TO_REPO', 'PATH_TO_DB', 'FOOD_PARENT_DB'])->notEmpty();
+$dotenv->required(['PATH_TO_REPO', 'PATH_TO_DB', 'TREE_MAP_DB'])->notEmpty();
 $dotenv->load();
 date_default_timezone_set('America/New_York');
 
 include_once 'functions.php';
 
-class FoodParentDatabase {
+class TreeMapDatabase {
 
   private function getDSN() {
     $root = $_ENV['PATH_TO_REPO'];
     $rel_path = $_ENV['PATH_TO_DB'];
-    $file_name = $_ENV['FOOD_PARENT_DB'];
+    $file_name = $_ENV['TREE_MAP_DB'];
     $full_path = "$root$rel_path$file_name";
     return "sqlite:$full_path";
   }

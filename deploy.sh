@@ -7,16 +7,16 @@ HOST=${CJ_PROD_USER}@${CJ_PROD_HOST}
 cp -f ${INDEX_FILE} .
 cp -f env/production/server.json ./setting/
 npm run build
-rsync -az --stats ./dist/ ${HOST}:/home/public/food-map/dist
+rsync -az --stats ./dist/ ${HOST}:/home/public/tree-map/dist
 
 
 ## SERVER BUILD
-rsync -az --stats --exclude server/.env --include ./server/ ${HOST}:/home/public/food-map/server
+rsync -az --stats --exclude server/.env --include ./server/ ${HOST}:/home/public/tree-map/server
 # update lock file if any php vendor files changed
-rsync -az --stats --include "./composer.*" --include ${INDEX_FILE} ${HOST}:/home/public/food-map/
+rsync -az --stats --include "./composer.*" --include ${INDEX_FILE} ${HOST}:/home/public/tree-map
 # then run composer install
 ssh ${HOST} /bin/bash <<EOF 
-cd /home/public/food-map/
+cd /home/public/tree-map
 composer install;
 EOF
 

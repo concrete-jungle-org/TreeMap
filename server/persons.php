@@ -4,7 +4,7 @@
   header("Pragma: no-cache");
 
   include_once 'functions.php';
-  include_once 'FoodParentDatabase.php';
+  include_once 'TreeMapDatabase.php';
 
   switch($_SERVER['REQUEST_METHOD']){
     case 'POST':
@@ -60,7 +60,7 @@
       }
       $sql = "SELECT `id`, `auth`, `name`, `contact`, `neighborhood`, `updated` FROM `person` WHERE (`id` IN (" . $params["ids"] . ") AND `active` = 1) ORDER BY `name` ASC ";
       try {
-        $db = new FoodParentDatabase();
+        $db = new TreeMapDatabase();
         $pdo = $db->getConnection();
         $stmt = $pdo->prepare($sql);
         $stmt->execute();

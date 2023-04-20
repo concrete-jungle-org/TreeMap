@@ -2,12 +2,12 @@
 
 require '../vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->required(['AT_FOOD_MAP_TOKEN', 'AT_BASE_ID', 'AT_BASE_URL'])->notEmpty();
+$dotenv->required(['AT_PERSONAL_ACCESS_TOKEN', 'AT_BASE_ID', 'AT_BASE_URL'])->notEmpty();
 $dotenv->load();
 date_default_timezone_set('America/New_York');
 
 function getAuthHeader() {
-  $authToken = $_ENV['AT_FOOD_MAP_TOKEN'];
+  $authToken = $_ENV['AT_PERSONAL_ACCESS_TOKEN'];
   return "Authorization: Bearer ".$authToken;
 }
 

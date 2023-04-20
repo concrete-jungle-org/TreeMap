@@ -24,7 +24,7 @@ directory, where they will be ignored by git if the file ends with `.sqlite`.
 - `airtable.sqlite`: an export of the data from airtable
 - `alter_xxx`: sqlite scripts to be executed against an airtable backup found in the [cj-airtable repo](https://github.com/concrete-jungle-org/cj-airtable).
 - `db_download.sh`: A script that downloads the database from cj-airtable where the server expects to find it
-- `foodparent.sqlite`: a database for app specific data not related to airtable data, For example the cursor position of the airtable webhooks.
+- `treemap.sqlite`: a database for app specific data not related to airtable data, For example the cursor position of the airtable webhooks.
 
 ## Dev Tips
 

@@ -1,12 +1,12 @@
 ## Initial dev setup
 
 If this is too long, a faster setup is to skip the php/apache sections and instead edit your files locally 
-but then `build`/`deploy` them to remote host and view changes there by visiting the [public url](https://nate.nfshost.com/food-map/).
+but then `build`/`deploy` them to remote host and view changes there by visiting the [public url](https://cj-staging.nfshost.com/).
 
-[Take a look at the app](https://nate.nfshost.com/food-map/) running on a dev server to see what we are buildling.
+[Take a look at the app](https://cj-staging.nfshost.com/) running on a dev server to see what we are buildling.
 
-- Get ssh access to the development server: `nate`
-  - `ssh <your_user>_nate@ssh.phx.nearlyfreespeech.net`
+- Get ssh access to the development server: `cj-staging`
+  - `ssh -i <ssh_id_file> <your_user>_cj-staging@ssh.phx.nearlyfreespeech.net`
 - install node v6
   - However, if you need to run 'npm install' then be careful, node v6 ships with npm v3 which does not read the package-lock file
   - The lock file is needed to ensure the exact same dependencies are installed
@@ -21,7 +21,7 @@ but then `build`/`deploy` them to remote host and view changes there by visiting
   - if you ever add/remove/update a dependency, you should do so with npm > 5 so that the package-lock file is updated as well.
 - create ENV variables to enable access to the ssh host
   - Here are mine for example:
-  - `export CJ_PROD_USER='nate91711_nate'`
+  - `export CJ_PROD_USER='durkie_cj-staging'`
   - `export CJ_PROD_HOST='ssh.phx.nearlyfreespeech.net'`
 - Set up your local database files
   - See the [readme.md](../db/readme.md) about how to download the sqlite database 
@@ -95,7 +95,7 @@ For the python server:
 - `npm run setup:prod` 
 - `npm run sync:server`
 
-Visit [nate.nfshost.com to see changes](https://nate.nfshost.com/food-map/)
+Visit [cj-staging.nfshost.com to see changes](https://cj-staging.nfshost.com/)
 
 ### Regression testing with the old dev workflow (mysql)
 
@@ -131,7 +131,7 @@ Note: If you make a mistake you can remove and reinstall
 
 ## Misc dev notes
 
-Note: index.html loads scripts with an href that starts with `/food-map/dist`. 
+Note: There is a local an production version of index.html because prod loads everything from a sub-dir `/tree-map` so the script src starts with `/tree-map/dist`.
 Note: Google API key is hardcoded in a couple files
 - index.html: `<script src="https://maps.googleapis.com/maps/api/js?key=`
 - settings/map.json: `"uReverseGeoCoding": "https://maps.googleapis.com/maps/api/geocode/json?key=`
@@ -166,7 +166,7 @@ curl -X POST "https://api.airtable.com/v0/bases/${AIRTABLE_BASE_ID}/webhooks" \
 -H "Authorization: Bearer ${AIRTABLE_PERSONAL_ACCESS_TOKEN}" \
 -H "Content-Type: application/json" \
 --data '{
-    "notificationUrl": "https://'${FOOD_MAP_HOST}'/food-map/server/webhooks.php",
+    "notificationUrl": "https://'${TREE_MAP_HOST}'/server/webhooks.php",
     "specification": {
       "options": {
         "filters": {
@@ -186,9 +186,9 @@ curl "https://api.airtable.com/v0/bases/${AIRTABLE_BASE_ID}/webhooks" \
 ```
 
 ```
-sqlite3 foodparent.sqlite
-chgrp web ./foodparent.sqlite
-cmod 664 ./foodparent.sqlite
+sqlite3 treemap.sqlite
+chgrp web ./treemap.sqlite
+cmod 664 ./treemap.sqlite
 
 //create tables if not exist
 ```

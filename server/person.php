@@ -4,7 +4,7 @@
   header("Pragma: no-cache");
 
   include_once 'functions.php';
-  include_once 'FoodParentDatabase.php';
+  include_once 'TreeMapDatabase.php';
   sec_session_continue(); // Our custom secure way of starting a PHP session.
 
   switch($_SERVER['REQUEST_METHOD']){
@@ -25,7 +25,7 @@
   function read() {
     $userid = null;
     $userauth = null;
-    $db = new FoodParentDatabase();
+    $db = new TreeMapDatabase();
     if (isset($_SESSION['user_id'])) {
       $userid = intval($_SESSION['user_id']);
     }
@@ -103,7 +103,7 @@
           "updated" => date("Y-m-d H:i:s"),
         );
         $sql = "UPDATE `person` SET `auth` = :auth, `name` = :name, `contact` = :contact, `neighborhood` = :neighborhood, `active` = :active, `updated` = :updated WHERE (`id` = :id)";
-        $db = new FoodParentDatabase();
+        $db = new TreeMapDatabase();
         try {
           $pdo = $db->getConnection();
           $stmt = $pdo->prepare($sql);
@@ -197,7 +197,7 @@
     );
     $sql = "SELECT `id`, `active` FROM `person` WHERE (`contact` = :contact)";
     try {
-      $db = new FoodParentDatabase();
+      $db = new TreeMapDatabase();
       $pdo = $db->getConnection();
       $stmt = $pdo->prepare($sql);
       $stmt->execute($params);
@@ -334,7 +334,7 @@
     if ($check) {
       $sql = "DELETE FROM `person` WHERE (`id` = :id)";
       try {
-        $db = new FoodParentDatabase();
+        $db = new TreeMapDatabase();
         $pdo = $db->getConnection();
         $stmt = $pdo->prepare($sql);
         $result = $stmt->execute($params);

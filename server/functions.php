@@ -1,6 +1,6 @@
 <?php
   include_once 'database.php';
-  include_once 'FoodParentDatabase.php';
+  include_once 'TreeMapDatabase.php';
 
   function debug_error($err, $banner = '') {
     if (!empty($banner)) {
@@ -68,7 +68,7 @@
     );
 
     try {
-      $db = new FoodParentDatabase(); 
+      $db = new TreeMapDatabase(); 
       $pdo = $db->getConnection();
       $stmt = $pdo->prepare($sql);
       if ($stmt) {
@@ -123,7 +123,7 @@
       );
 
       try {
-        $db = new FoodParentDatabase(); 
+        $db = new TreeMapDatabase(); 
         $pdo = $db->getConnection();
         $stmt = $pdo->prepare($sql);
         if ($stmt) {
@@ -176,7 +176,7 @@
       );
 
       try {
-        $db = new FoodParentDatabase(); 
+        $db = new TreeMapDatabase(); 
         $pdo = $db->getConnection();
         $stmt = $pdo->prepare($sql);
         if ($stmt) {
@@ -345,8 +345,4 @@
     return $d && $d->format($format) == $date;
   }
 
-  //sec_session_start(); // Our custom secure way of starting a PHP session.
-  //login('jkim848@gatech.edu', 'foodparent');
-  //login_check();
-  //admin_check();
 ?>

@@ -2,7 +2,7 @@
   require '../vendor/autoload.php';
   include_once 'functions.php';
   include_once 'AirtableJobs.php';
-  include_once 'FoodParentDatabase.php';
+  include_once 'TreeMapDatabase.php';
 
   class AirtableJobsFactory {
     public $payloads;

@@ -2,8 +2,6 @@
   "ssltype": "https://",
   "bTestMail": true,
 
-  "host": "nate.nfshost.com",
-
   "uBase": "",
   "uBaseForRouter": "/",
 
