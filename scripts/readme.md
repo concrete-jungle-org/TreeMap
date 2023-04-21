@@ -9,5 +9,6 @@
 ### Webhook Ping
 
 The script requires a personal access token with the correct scope to refresh a particular webhook.
-See the airtable docs about webhook refresh, also see docs/Dev_Setup.md for details on how to get the webhook id.
+See the [airtable docs](https://airtable.com/developers/web/api/refresh-a-webhook) about webhook refresh.
+Also see the [setup docs](../docs/Dev_Setup.md) for details on how to get the webhook id.
 

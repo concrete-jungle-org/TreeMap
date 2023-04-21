@@ -1,9 +1,10 @@
+db/alter_food_col.sql
 dist/
-server/
-vendor/
 favicons/
+server/
 static/
-index.html
+vendor/
 .htaccess
 composer.json
 composer.lock
+index.html
