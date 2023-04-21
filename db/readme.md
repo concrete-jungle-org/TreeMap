@@ -23,13 +23,12 @@ directory, where they will be ignored by git if the file ends with `.sqlite`.
 
 - `airtable.sqlite`: an export of the data from airtable
 - `alter_xxx`: sqlite scripts to be executed against an airtable backup found in the [cj-airtable repo](https://github.com/concrete-jungle-org/cj-airtable).
-- `db_download.sh`: A script that downloads the database from cj-airtable where the server expects to find it
 - `treemap.sqlite`: a database for app specific data not related to airtable data, For example the cursor position of the airtable webhooks.
 
 ## Dev Tips
 
 To get started: 
-- Copy over the 2 db sqlite files needed to from staging to your local dev env.
+- Copy over the 2 db sqlite files from staging to your local dev env.
 - Install sqlite3 and verify access to sqlite database: `pragma table_info(food)`
 
 
@@ -37,10 +36,9 @@ To get started:
 
 The goal is to get the app to behave the same as production using this database: airtable.sqlite.
 However the database schema used in airtable differs from the original mysql db.
-Any modification to the database schema needs to be recorded in an alter script so it can be re-created when a new db import occurrs.
 The cj-airtable repo creates nightly backups using this tool [airtable-export-tool](https://datasette.io/tools/airtable-export)
 You can setup and run this tool locally if you want, instructions are given on the site.
-The tool has not been updated since Apir 9, 2021, as of Aug 2022 it works perfectly.
+The tool has not been updated since Apr 9, 2021, as of Apr 2023 it still works.
 
 ### Sqlite
 
@@ -104,8 +102,4 @@ Legacy MySQL dev:
   - test a modified query against tree_parent.sqlite to get the SQL conversion working, returns expected results
   - test the updated sqlite query against the airtable.sqlite db, to get expected results
   - NOTE: this worked well with one exception concerning what food is in season, more on that later.
-
-
-
-
 

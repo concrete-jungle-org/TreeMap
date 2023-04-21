@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "webpack -d --watch --config webpack.dev.config.js",
     "build": "webpack -p --config webpack.dev.config.js",
-    "deploy": "./deploy.sh",
+    "deploy": "./scripts/deploy.sh",
     "setup:dev": "cp -f env/local/index.html . && cp -f env/local/server.json setting/",
     "setup:prod": "cp -f env/production/index.html . && cp -f env/production/server.json setting/",
     "sync:client": "rsync -azP ./dist/ ${CJ_PROD_USER}@${CJ_PROD_HOST}:/home/public/tree-map/dist",

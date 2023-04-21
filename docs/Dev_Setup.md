@@ -97,37 +97,6 @@ For the python server:
 
 Visit [cj-staging.nfshost.com to see changes](https://cj-staging.nfshost.com/)
 
-### Regression testing with the old dev workflow (mysql)
-
-If you need to see how something is working in production that is not working with your local build,
-then you can restore the code to match what is running in production.
-
-For the js web app:
-- `npm run reset:client` 
-
-For the python server:
-- `npm run reset:server` 
-
-The mysql db is already loaded on the remote host.
-This can be confirmed from the [phpmyadmin dashboard](https://phpmyadmin.nearlyfreespeech.net/)
-
-Some unusual notes about production:
-- Production code is on the `scss` branch with a number of file changes that are not tracked
-- Github's `master` branch has 1 commit ahead of the `scss` branch where the intro-js code was removed
-
-### If you want to run the old dev workflow locally you will need to set up mysql/php/apache
-
-  - `brew install mysql@5.7`
-  - `brew link --force mysql@5.7`
- 
-Note: If you make a mistake you can remove and reinstall
-- `brew uninstall mysql@5.7`
-- `rm -rf /usr/local/var/mysql`
-- `rm /usr/local/etc/my.cnf`
-- you may need to edit your PATH var if a 2nd version of mysql installed that is hidden by PATH export
-- source
-- check: `mysql --version`
-- `brew uninstall mysql`
 
 ## Misc dev notes
 
@@ -145,8 +114,28 @@ these values in the source code and then creating a new dist/js/client-bundle.
 Note: MapBox API key is also exposed
 - map.json: `"sMapboxAccessToken": "..."`
 
+The mysql db is already loaded on the remote host.
+This can be confirmed from the [phpmyadmin dashboard](https://phpmyadmin.nearlyfreespeech.net/)
 
-From the original Readme.md
+### If you want to run the old dev workflow locally you will need to set up mysql/php/apache
+
+  - `brew install mysql@5.7`
+  - `brew link --force mysql@5.7`
+ 
+Note: If you make a mistake you can remove and reinstall
+- `brew uninstall mysql@5.7`
+- `rm -rf /usr/local/var/mysql`
+- `rm /usr/local/etc/my.cnf`
+- you may need to edit your PATH var if a 2nd version of mysql installed that is hidden by PATH export
+- source
+- check: `mysql --version`
+- `brew uninstall mysql`
+Some unusual notes about production:
+- Production code is on the `scss` branch with a number of file changes that are not tracked
+- Github's `master` branch has 1 commit ahead of the `scss` branch where the intro-js code was removed
+
+
+### From the original Readme.md
   - Upload files in a server
   **Don't** try to upload all files in {app-root-directory}. It have a lot of dependency libraries which don't need to run the application.
   Below are the list of directories and files require to run the applicaiton.
@@ -162,17 +151,17 @@ From the original Readme.md
 
 To create a webhook that listens to changes on the `tree` table
 ```sh
-curl -X POST "https://api.airtable.com/v0/bases/${AIRTABLE_BASE_ID}/webhooks" \
+curl -X POST "https://api.airtable.com/v0/bases/${AIRTABLE_DEV_BASE_ID}/webhooks" \
 -H "Authorization: Bearer ${AIRTABLE_PERSONAL_ACCESS_TOKEN}" \
 -H "Content-Type: application/json" \
 --data '{
-    "notificationUrl": "https://'${TREE_MAP_HOST}'/server/webhooks.php",
+    "notificationUrl": "https://'${TREE_MAP_HOST}'/tree-map/server/webhooks.php",
     "specification": {
       "options": {
         "filters": {
           "fromSources": ["client"],
           "dataTypes": ["tableData"],
-          "recordChangeScope": "tblZju10jEUD8Kas0"
+          "recordChangeScope": '${AIRTABLE_DEV_TREE_TBL}'
         }
       }
     }

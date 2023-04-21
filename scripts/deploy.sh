@@ -1,6 +1,6 @@
 #!/bin/sh
 INDEX_FILE="./env/production/index.html" 
-HOST=${CJ_PROD_USER}@${CJ_PROD_HOST}
+HOST=${CJ_STAGING_USER}@${CJ_STAGING_HOST}
 
 ## CLIENT BUILD
 # create a production build of client and send to host
