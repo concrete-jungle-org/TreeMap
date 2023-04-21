@@ -2,8 +2,8 @@
   "ssltype": "https://",
   "bTestMail": true,
 
-  "uBase": "",
-  "uBaseForRouter": "/",
+  "uBase": "/tree-map",
+  "uBaseForRouter": "/tree-map/",
 
   "uServer": "/server/",
   "uDist": "/dist/",
