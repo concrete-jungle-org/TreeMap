@@ -149,24 +149,8 @@ Some unusual notes about production:
   
 ## Notes for manual setup
 
-To create a webhook that listens to changes on the `tree` table
-```sh
-curl -X POST "https://api.airtable.com/v0/bases/${AIRTABLE_DEV_BASE_ID}/webhooks" \
--H "Authorization: Bearer ${AIRTABLE_PERSONAL_ACCESS_TOKEN}" \
--H "Content-Type: application/json" \
---data '{
-    "notificationUrl": "https://'${TREE_MAP_HOST}'/tree-map/server/webhooks.php",
-    "specification": {
-      "options": {
-        "filters": {
-          "fromSources": ["client"],
-          "dataTypes": ["tableData"],
-          "recordChangeScope": '${AIRTABLE_DEV_TREE_TBL}'
-        }
-      }
-    }
-  }'
-```
+To create a webhook that listens to changes on the `tree` table see the
+[webhook_create.sh](../scripts/webhook_create.sh)
 
 list active webhooks
 ```sh
