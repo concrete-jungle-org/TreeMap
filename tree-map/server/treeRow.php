@@ -54,9 +54,15 @@
       }
       if ($name == 'food') { 
         //transform: ["recABC"] to "recABC"
-        $foodArray = json_decode($value);
-        if (!is_null($foodArray)) {
-          $this->food = $foodArray[0];
+        if (is_null($value)) {
+          $this->food = null;
+        } else {
+          $foodArray = json_decode($value);
+          if (is_null($foodArray)) {
+            $this->food = null;
+          } else {
+            $this->food = $foodArray[0];
+          }
         }
       }
       if ($name == 'created date') {
