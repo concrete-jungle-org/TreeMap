@@ -182,20 +182,15 @@
         if ($stmt) {
           $stmt->execute($params);
           $result = $stmt->fetch();
-          if ($stmt->rowCount() == 1) {
-            // If the user exists get variables from result.
-            $password = $result["password"];
-            $login_check = hash('sha512', $password . $user_browser);
-            if ($login_check == $login_string) {
-              // Logged In!!!!
-              if ($auth == 1 || $auth == 2) {
-                // Admin account
-                return true;
-              } else {
-                return false;
-              }
+          // If the user exists get variables from result.
+          $password = $result["password"];
+          $login_check = hash('sha512', $password . $user_browser);
+          if ($login_check == $login_string) {
+            // Logged In!!!!
+            if ($auth == 1 || $auth == 2) {
+              // Admin account
+              return true;
             } else {
-              // Not logged in
               return false;
             }
           } else {
@@ -265,7 +260,7 @@
       }
       return $foods;
     } catch(PDOException $e) {
-      return '{"error":{"text":'. $e->getMessage() .'}}';
+      throw new Exception('{"error":{"text":'. $e->getMessage() .'}}');
     }
   }
 

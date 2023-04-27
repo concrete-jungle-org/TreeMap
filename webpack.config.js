@@ -5,12 +5,12 @@ var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HistoryApiFallback = require('connect-history-api-fallback');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var ServerSetting = require('./setting/server.json');
+var ServerSetting = require('./tree-map/setting/server.json');
 
-var BUILD_DIR = path.resolve(__dirname, './dist');
-var SEVER_DIR = path.resolve(__dirname, './server');
-var CLIENT_DIR = path.resolve(__dirname, './client');
-var SETTING_DIR = path.resolve(__dirname, './setting');
+var BUILD_DIR = path.resolve(__dirname, './tree-map/dist');
+var SEVER_DIR = path.resolve(__dirname, './tree-map/server');
+var CLIENT_DIR = path.resolve(__dirname, './tree-map/client');
+var SETTING_DIR = path.resolve(__dirname, './tree-map/setting');
 var LIBRARIES_DIR = path.resolve(__dirname, './libraries');
 var MODULES_DIR = path.resolve(__dirname, './node_modules');
 
@@ -54,7 +54,7 @@ var corePluginList = [
     // 'createjs': 'imports?this=>global!exports?createjs!createjs',
   }),
   new CopyWebpackPlugin([
-    { from: SETTING_DIR, to: path.join(BUILD_DIR, "./setting/") },
+    { from: SETTING_DIR, to: path.join(BUILD_DIR, "./tree-map/setting/") },
     { from: path.join(LIBRARIES_DIR, "./chart-core.js"), to: path.join(BUILD_DIR, "./js/chart-core.js") },
     { from: path.join(LIBRARIES_DIR, "./chart-scatter.js"), to: path.join(BUILD_DIR, "./js/chart-scatter.js") },
     { from: path.join(LIBRARIES_DIR, "./ExifRestorer.js"), to: path.join(BUILD_DIR, "./js/exif-restorer.js") },

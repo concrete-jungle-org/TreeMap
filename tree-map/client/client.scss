@@ -9,11 +9,11 @@
 @import "./scss/gallery.scss";
 
 // Import css libraries
-@import "./../node_modules/react-select/scss/components.scss";
-@import "./../node_modules/font-awesome/scss/font-awesome.scss";
-@import "./../node_modules/leaflet/dist/leaflet.css";
-@import "./../node_modules/react-bootstrap-datetimepicker/css/bootstrap-datetimepicker.css";
-@import "./../node_modules/react-image-gallery/src/image-gallery";
+@import "./../../node_modules/react-select/scss/components.scss";
+@import "./../../node_modules/font-awesome/scss/font-awesome.scss";
+@import "./../../node_modules/leaflet/dist/leaflet.css";
+@import "./../../node_modules/react-bootstrap-datetimepicker/css/bootstrap-datetimepicker.css";
+@import "./../../node_modules/react-image-gallery/src/image-gallery";
 
 
 * {

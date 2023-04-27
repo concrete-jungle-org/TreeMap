@@ -1,4 +1,4 @@
 # additional dirs to ignore when searching with ripgrep
-patched_modules/
 libraries/
-vendor/
+tree-map/vendor/
+package-lock.json

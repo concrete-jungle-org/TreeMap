@@ -74,7 +74,7 @@ FROM Donate;
  
 ### MySQL (Legacy)
 
-When you want to work with the app as it was in production follow the [Dev_Setup.md](../docs/Dev_Setup.md) instructions.
+When you want to work with the app as it was in production follow the [Dev_Setup.md](../../docs/Dev_Setup.md) instructions.
 The original app required a dbpass.php and a database.php file. The database file is here with a `.mysql` extension.
 The .mysql extension was added to avoid confusion with other forms of this file elsewhere in this repo, but gets
 removed when using. The [dbpass](dbpass.php) contains sensitive info and therefore is stored on the server not the repo.
