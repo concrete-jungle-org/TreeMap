@@ -13,3 +13,8 @@ The script requires a personal access token with the correct scope to refresh a 
 See the [airtable docs](https://airtable.com/developers/web/api/refresh-a-webhook) about webhook refresh.
 Also see the [setup docs](../docs/Dev_Setup.md) for details on how to get the webhook id.
 
+## Github Workflows
+
+Note the deploy.sh script is not used regularly and may not get maintained.
+Deployments happen automatically when code is pushed to staging or main branches.
+The [.github/workflows/staging.yml](../.github/workflows/staging.yml) details how.
