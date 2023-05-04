@@ -4,13 +4,6 @@ require('./tree-food.component.scss');
 const TreeSeason = ({isValid, firstWeek, lastWeek, updateFirstWeek, updateLastWeek, resetFoodsFilter, filterBySeason}) => {
   return (
     <div className="tree-season-wrapper">
-      <div className="solid-button-group">
-        <div className="solid-button solid-button-green" onClick={() => {
-          resetFoodsFilter();
-        }}>
-          Reset
-        </div>
-      </div>
       <div className="solid-button-group week-selector">
         <label>From Week: 
           <input
@@ -37,11 +30,18 @@ const TreeSeason = ({isValid, firstWeek, lastWeek, updateFirstWeek, updateLastWe
           <div className="solid-button solid-button-green" onClick={() => {
             filterBySeason();
           }}>
-            Filter In Season Weeks
+            Show fruit from these weeks
           </div>
           :
           <div><p className="warning-msg">Invalid range</p></div>
         }
+      </div>
+      <div className="solid-button-group">
+        <div className="solid-button solid-button-green" onClick={() => {
+          resetFoodsFilter();
+        }}>
+          Reset to current week
+        </div>
       </div>
     </div>
   )
