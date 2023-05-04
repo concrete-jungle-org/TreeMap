@@ -1,17 +1,7 @@
-var webpack = require('webpack');
 var path = require('path');
 
-var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
-var HistoryApiFallback = require('connect-history-api-fallback');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var ServerSetting = require('./tree-map/setting/server.json');
-
 var BUILD_DIR = path.resolve(__dirname, './tree-map/dist');
-var SEVER_DIR = path.resolve(__dirname, './tree-map/server');
 var CLIENT_DIR = path.resolve(__dirname, './tree-map/client');
-var SETTING_DIR = path.resolve(__dirname, './tree-map/setting');
-var MODULES_DIR = path.resolve(__dirname, './node_modules');
 
 var configs = require('./webpack.config');
 
