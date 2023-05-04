@@ -32,4 +32,4 @@ jobs:
           key: ${{ secrets.STAGING_SSH_KEY }}
           known_hosts: unnecessary
       - name: Send files to staging server
-        run: rsync -avzr --files-from=scripts/deployed_files.txt . ${{ secrets.STAGING_USER }}@${{ secrets.STAGING_HOST_NAME }}:/home/public/tree-map/
+        run: rsync -avzr --files-from=scripts/deployed_files.txt . ${{ secrets.STAGING_USER }}@${{ secrets.STAGING_HOST_NAME }}:/home/public/
