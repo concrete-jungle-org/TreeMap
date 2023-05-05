@@ -7,4 +7,4 @@ tree-map/vendor/
 tree-map/.htaccess
 tree-map/composer.json
 tree-map/composer.lock
-index.html
+tree-map/index.html
