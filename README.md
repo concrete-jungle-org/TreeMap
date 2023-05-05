@@ -8,10 +8,13 @@ decide the proper time for foraging fruits and distribute to the needy.
 
 # Dir Structure
 
-- client: code for the browser
-- db: databases
-- dist: code for deployment, created by build scripts, not versioned.
 - docs: more detailed documentation
+- libraries: 3rd party js code bundled by webpack into a single js asset
+- tree-map: all the code hosted on remote server that runs the app
+  - client: code for the browser
+  - db: databases, one for airtable and one for tree-map specific data
+  - dist: code for deployment, created by build scripts, not versioned.
+  - server: php files used by web-server
 
 # Development Setup
 
