@@ -1,0 +1,35 @@
+name: deploy-production
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build-the-app:
+    runs-on: ubuntu-latest
+    steps: 
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 6
+      - name: Install js dependencies
+        run: npm install
+      - name: Build client bundle /dist
+        run: npm run build
+      - name: Install php dependencies /vendor
+        uses: php-actions/composer@v6
+        with:
+          php_version: "8.0"
+          version: 2
+          args: --working-dir=./tree-map
+      - name: Add dev server as a known_host
+        run: |
+          mkdir -p ~/.ssh
+          touch ~/.ssh/known_hosts
+          ssh-keyscan ${{ secrets.HOST_NAME }} >> ~/.ssh/known_hosts
+      - name: Add ssh key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_KEY }}
+          known_hosts: unnecessary
+      - name: Send files to staging server
+        run: rsync -avzr --files-from=scripts/deployed_files.txt . ${{ secrets.USER }}@${{ secrets.HOST_NAME }}:/home/public/
