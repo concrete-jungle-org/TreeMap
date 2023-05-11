@@ -27,13 +27,10 @@ but then `build`/`deploy` them to remote host and view changes there by visiting
   - See the [readme.md](../db/readme.md) about how to download the sqlite database 
   - `chmod 664 tree_parent.sqlite` verify that you allow user and group rw permissions if getting an access error
 - Setup PHP on macOS
-  - brew install php@7.4
-  - brew link php@7.4
+  - brew install php@8
   - php -v
-    Note: If you have already done this before but notice php is pointing to v8 check that the sym links were not overwritten.
-    - `brew link --overwrite --dry-run php@7.4`
-    - if you see links to another version such as `/usr/local/bin/pear -> /usr/local/Cellar/php/8.1.8/bin/pear` then overwrite
-  - Notes from the original readme concerning PHP
+  
+  - Notes from the original readme concerning PHP, which was v7.4 at that time.
     * Open `php.ini` configuration file under {apach} directory. If you are using external hosting service, ask hosting manager.
     * Find `upload_max_filesize` and set the value higher than 6M. This value defines the maximum size of file, and some of image files generated from smart devices exceeds 4M.
     ```
@@ -43,7 +40,8 @@ but then `build`/`deploy` them to remote host and view changes there by visiting
     ```
 
 
-- Setup Apache on MacOS 12.0 Monterrey (Intel Basedql
+
+- Setup Apache on MacOS 12.0 Monterrey (Intel Based)
   - Note: Apple silicon (M1+) computers may store files in a different location.
   - [Setting up Apache Server on macOS 12](https://getgrav.org/blog/macos-monterey-apache-multiple-php-versions)
   - Also following instructions to load apache from: https://www.git-tower.com/blog/apache-on-macos/
@@ -56,7 +54,7 @@ but then `build`/`deploy` them to remote host and view changes there by visiting
   - Make changes to the conf file already used by MacOS.
   - `/usr/local/etc/httpd/httpd.conf`
     - Change the port from 8080 to 80
-    - Enable PHP@7.4 module
+    - Enable PHP@8, if not default
     - Enable vhosts
     - Change the user/group to your username/staff
   - In the `extras/vhosts` file remove dummy vhosts and create a new one
