@@ -21,7 +21,7 @@ jobs:
           php_version: "8.0"
           version: 2
           args: --working-dir=./tree-map
-      - name: Add dev server as a known_host
+      - name: Add prod server as a known_host
         run: |
           mkdir -p ~/.ssh
           touch ~/.ssh/known_hosts
