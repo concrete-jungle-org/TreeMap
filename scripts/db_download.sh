@@ -12,3 +12,4 @@ curl -v \
   -L 'https://api.github.com/repos/concrete-jungle-org/cj-airtable/contents/tree_parent.db'
 
 exec sqlite3 /home/public/tree-map/db/airtable.sqlite < /home/public/tree-map/db/alter_food_col.sql
+exec sqlite3 /home/public/tree-map/db/airtable.sqlite < /home/public/tree-map/db/create_in_season_tbl.sql
