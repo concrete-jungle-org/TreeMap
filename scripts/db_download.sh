@@ -3,7 +3,7 @@ set -eu
 
 GITHUB_PAT=${A_TOKEN_YOU_CREATE_FOR_THIS_PURPOSE}
 
-echo curl -v \
+curl -v \
   -H "Authorization: Bearer $GITHUB_PAT" \
   -H 'Accept: application/vnd.github.v3.raw' \
   -o '/home/public/tree-map/db/airtable.sqlite'\
