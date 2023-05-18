@@ -1,4 +1,5 @@
 tree-map/db/alter_food_col.sql
+tree-map/db/create_in_season_tbl.sql
 tree-map/dist/
 tree-map/favicons/
 tree-map/server/
