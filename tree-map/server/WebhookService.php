@@ -73,7 +73,6 @@
       return new AirtableJobsFactory($payloads, $rowId);
     }
     private function getCursor($webhook_id) {
-      $cursor = 1;
       $sql = <<<SQL
         SELECT cursor FROM airtable_payloads
         WHERE webhook_id = :webhook_id ORDER BY cursor DESC LIMIT 1;
@@ -82,6 +81,9 @@
       try {
         $result = $this->db->query($sql, $params);      
         $cursor = $result['cursor'];
+        if (is_null($cursor)) {
+          $cursor = 1;
+        }
       } catch(PDOException $e) {
         debug_error($e, "ERROR Unable to get cursor position from database");
       }
