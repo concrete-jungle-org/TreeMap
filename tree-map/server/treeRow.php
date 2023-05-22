@@ -1,8 +1,4 @@
 <?php
-  header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-  header("Cache-Control: post-check=0, pre-check=0", false);
-  header("Pragma: no-cache");
-
   // Used to create Tree objects from the sqlite database with setFetchMode(PDO::FETCH_CLASS, 'TreeRow');
   // No PDO fecth mode for a class that accepts values in the constructor, so no constructor needed.
   #[AllowDynamicProperties] // suppresses a deprecation warning in PHPv8.2 caused by adding a prop in __set method
