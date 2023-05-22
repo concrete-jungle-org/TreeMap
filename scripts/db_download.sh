@@ -9,7 +9,7 @@ curl -v \
   -o '/home/public/tree-map/db/airtable.sqlite'\
   -L 'https://api.github.com/repos/concrete-jungle-org/cj-airtable/contents/tree_parent.db'
 
-exec chgrp web /home/public/tree-map/db/airtable.sqlite
-exec chmod 664 /home/public/tree-map/db/airtable.sqlite
-exec sqlite3 /home/public/tree-map/db/airtable.sqlite < /home/public/tree-map/db/alter_food_col.sql
-exec sqlite3 /home/public/tree-map/db/airtable.sqlite < /home/public/tree-map/db/create_in_season_tbl.sql
+chgrp web /home/public/tree-map/db/airtable.sqlite
+chmod 664 /home/public/tree-map/db/airtable.sqlite
+sqlite3 /home/public/tree-map/db/airtable.sqlite < /home/public/tree-map/db/alter_food_col.sql
+sqlite3 /home/public/tree-map/db/airtable.sqlite < /home/public/tree-map/db/create_in_season_tbl.sql
