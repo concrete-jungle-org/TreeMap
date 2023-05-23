@@ -23,10 +23,12 @@ get new staging up and running locally
   - rsync -azP airtable.sqlite durkin_cj-staging@ssh.phx.nearlyfreespeech.net:/home/public/tree-map/db
   correct file permissions and ownership
   - chmod 664 airtable.sqlite
-  - chmod 664 foodparent.sqlite
+  - chmod 664 treemap.sqlite
   - chgrp web airtable.sqlite
-  - chgrp web foodparent.sqlite
+  - chgrp web treemap.sqlite
+  - chmod 775 ../db
   - chgrp web ../db
+  - chmod 775 ../tree-map
   - chgrp web ../tree-map
 
 
