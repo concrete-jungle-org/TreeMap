@@ -1,4 +1,4 @@
-#!/bin/zsh
+#! /bin/sh
 set -u
 
 HOST=${TREE_MAP_HOST}
