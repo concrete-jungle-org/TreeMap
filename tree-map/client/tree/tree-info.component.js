@@ -34,16 +34,9 @@ export default class TreeInfo extends React.Component {
     }
   }
   render () {
-    let message;
-    if (AuthStore.getState().auth.isRecentlyAddedByUser(TreeStore.getState().selected)) {
-      message = <div className="error-text padding-8">
-        {localization(77)}
-      </div>
-    }
     let actions;
     if (this.state.editable) {
       actions = <div>
-        {message}
         <div className="solid-button-group">
           <div className="solid-button solid-button-green" onClick={() => {
             this.setState({editing: true});

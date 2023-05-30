@@ -78,14 +78,18 @@
         WHERE webhook_id = :webhook_id ORDER BY cursor DESC LIMIT 1;
       SQL;
       $params = ['webhook_id' => $webhook_id];
+      $cursor = 1; //default starting value used by Airtable
       try {
         $result = $this->db->query($sql, $params);      
+        if (!$result) {
+          throw new PDOException("No results for webhook_id: [".$webhook_id."]");
+        }
         $cursor = $result['cursor'];
         if (is_null($cursor)) {
-          $cursor = 1;
+          throw new PDOException("Results missing 'cursor' property");
         }
       } catch(PDOException $e) {
-        debug_error($e, "ERROR Unable to get cursor position from database");
+        debug_error($e, "Unable to get cursor position from database");
       }
       return $cursor;
     }
