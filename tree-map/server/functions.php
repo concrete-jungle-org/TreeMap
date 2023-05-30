@@ -9,6 +9,8 @@
     if (is_object($err)) {
       if (method_exists($err, 'getMessage')) {
         error_log($err->getMessage());
+      } else {
+        error_log($err);
       }
       if (method_exists($err, 'getFile') && method_exists($err, 'getLine')) {
         error_log('From: '.$err->getFile().' on line: '.$err->getLine());
