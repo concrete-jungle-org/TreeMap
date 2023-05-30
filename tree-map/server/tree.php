@@ -77,53 +77,16 @@
 
   function update() {
     $data = json_decode(file_get_contents('php://input'));
-    $params = null;
-    if ($data != null) {
-      $params = array(
-        "id" => $data->{'id'},
-        "lat" => $data->{'lat'},
-        "lng" => $data->{'lng'},
-        "food" => $data->{'food'},
-        "description" => $data->{'description'},
-        "full address" => $data->{'address'},
-        "public" => $data->{'public'},
-        "dead" => $data->{'dead'},
-        "owner" => $data->{'owner'},
-        "parent" => $data->{'parent'},
-        "rate" => $data->{'rate'},
-        "updated" => date("Y-m-d H:i:s"),
-      );
-    }
-    $sql = "UPDATE `tree` SET `lat` = :lat, `lng` = :lng, `food` = :food, `public` = :public, `dead` = :dead, `parent` = :parent, `rate` = :rate, `owner` = :owner, `description` = :description, `address` = :address, `updated` = :updated WHERE (`id` = :id)";
 
     try {
-      $pdo = getConnection();
-      $stmt = $pdo->prepare($sql);
-      $stmt->execute($params);
+      $repo = new TreeRepository();
+      $tree = $repo->update((array) $data);
 
-      $sql = "SELECT * FROM `tree` WHERE (`id` = :id)";
       $params = array(
-        "id" => $data->{'id'},
+        "code" => 200,
+        "tree" => $tree,
       );
-
-      try {
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute($params);
-        $result = $stmt->fetchAll(PDO::FETCH_OBJ);
-        $pdo = null;
-        $params = array(
-          "code" => 200,
-          "tree" => $result[0],
-        );
-        echo json_encode($params);
-      } catch(PDOException $e) {
-        $json = array(
-          "code" => $e->getCode(),
-          "message" => $e->getMessage(),
-        );
-        echo json_encode($json);
-      }
-
+      echo json_encode($params);
     } catch(PDOException $e) {
       $json = array(
         "code" => $e->getCode(),

@@ -6,6 +6,7 @@
   include_once 'AirtableDatabase.php';
   include_once 'AirtableCache.php';
   include_once 'treeRow.php';
+  use Guym4c\Airtable\Record;
 
   class TreeRepository {
     private $db;
@@ -18,8 +19,8 @@
       $this->db = AirtableDatabase::initialize();
       $this->cache = new AirtableCache();
     }
-    
-    public function refresh($recordId) {
+
+    public function get($recordId) {
       //NOTE: this method call airtable API which is rate limited to 5 calls per second
       try {
         $record = $this->db->get($this->table, $recordId);
@@ -27,6 +28,12 @@
         debug_error($e, 'Unable to get from Airtable record: '.$recordId);
         throw $e;
       }
+      return $record;
+    }
+    
+    // Refresh a stale cache: Airtable data fetched and written to SQLite Cache
+    public function refresh($recordId) {
+      $record = $this->get($recordId);
       $sqliteFields = $this->convertAirtableToSQLite($record);
       try {
         $sqlite_record = $this->upsert($sqliteFields);
@@ -101,8 +108,7 @@
       try {
         $this->cache->query($sql, $params);
       } catch(PDOException $e) {
-        print_error("Unable to delete from tree");
-        print_error($e->getMessage());
+        debug_error($e, "Unable to delete from tree");
       }
     }
 
@@ -123,6 +129,38 @@
       }
       $_SESSION['LAST_CREATE'] = $_SERVER['REQUEST_TIME'];
 
+      return $this->upsert($sqliteFields);
+    }
+
+    public function update(array $data): TreeRow {
+      // Get the airtable_id, its required to create an airtable record
+      $airtable_id = null;
+      $id = $data["id"];
+      $sql = "SELECT airtable_id FROM tree WHERE id = :id";
+      $params = [ "id" => $id ];
+      $result = $this->cache->query($sql, $params);
+      $airtable_id = $result[0];
+      if (!$airtable_id) {
+        throw new Exception('Unable to find tree in sqlite cache with id: ['.strval($id).']');
+      }
+      $airtableFields = $this->convertTreeRecordToAirtableRecord($data);
+
+      //Create an empty Airtable Record to use with update
+      $recordData = [
+        "id" => $airtable_id,
+        "fields" => []
+      ];
+      $newRecord = new Record($this->db, $this->table, $recordData);
+
+      // Update all fields in this Airtable Record to $data fields
+      // because only updatedFields are sent to Airtable
+      foreach ($airtableFields as $field => $value) {
+        $newRecord->__set($field, $value);
+      }
+      $updatedRecord = $this->db->update($newRecord);
+
+      // Update the sqlite cache with results from Airtable update
+      $sqliteFields = $this->convertAirtableToSQLite($updatedRecord);
       return $this->upsert($sqliteFields);
     }
   }
