@@ -25,7 +25,7 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           touch ~/.ssh/known_hosts
-          ssh-keyscan ssh.phx.nearlyfreespeech.net >> ~/.ssh/known_hosts
+          ssh-keyscan ssh.nyc1.nearlyfreespeech.net >> ~/.ssh/known_hosts
       - name: Add ssh key
         uses: shimataro/ssh-key-action@v2
         with:
